@@ -107,7 +107,7 @@ export type Track = {
 
 export const tracks: Track[] = [
   {
-    name: "Golden Hour",
+    name: "Your Thoughts",
     duration: "3:42",
     mood: "Warm · Ambient",
     audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Your Thoughts.flac",
@@ -115,7 +115,7 @@ export const tracks: Track[] = [
     lyrics: [], // We will parse the .lrc file into this array
   },
   {
-    name: "Letters Unsent",
+    name: "Saajna",
     duration: "4:08",
     mood: "Tender · Reflective",
     audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Saajna.flac",
@@ -123,7 +123,7 @@ export const tracks: Track[] = [
     lyrics: [],
   },
   {
-    name: "Slow Bloom",
+    name: "Perfect",
     duration: "3:15",
     mood: "Bright · Hopeful",
     audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Perfect.m4a",
