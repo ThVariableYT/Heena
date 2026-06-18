@@ -6,12 +6,12 @@ import { tracks, type Track } from "@/lib/birthday-data";
 import { sparkle } from "./SparkleCanvas";
 import { playChime, startProceduralMelody } from "@/lib/audio";
 
-// 📝 Helper function to parse standard .lrc file timestamp tags
+// 📝 Flexible parser matching standard formats: [00:04], [00:04.50], or [00:04:50]
 function parseLRC(lrcText: string): { time: number; text: string }[] {
+  if (!lrcText) return [];
   const lines = lrcText.split("\n");
   const result: { time: number; text: string }[] = [];
-  // Regex to match timestamps like [01:23.45] or [00:04.50]
-  const timeRegex = /\[(\d+):(\d+)\.(\d+)\]/;
+  const timeRegex = /\[(\d+):(\d+)(?:[\.:](\d+))?\]/;
 
   for (const line of lines) {
     const match = timeRegex.exec(line);
@@ -26,7 +26,7 @@ function parseLRC(lrcText: string): { time: number; text: string }[] {
       }
     }
   }
-  return result;
+  return result.sort((a, b) => a.time - b.time);
 }
 
 export default function VinylPlayer() {
@@ -39,15 +39,10 @@ export default function VinylPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const proceduralRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // 🛑 Cleanup audio player when leaving the page
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      if (proceduralRef.current) {
-        clearInterval(proceduralRef.current);
-      }
+      if (audioRef.current) audioRef.current.pause();
+      if (proceduralRef.current) clearInterval(proceduralRef.current);
     };
   }, []);
 
@@ -55,65 +50,60 @@ export default function VinylPlayer() {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     sparkle({ x: rect.left + rect.width / 2, y: rect.top, count: 12, kind: "gold" });
 
-    // Toggle off if clicking the active playing song
     if (currentTrack?.name === track.name && playing) {
       stopPlayback();
       return;
     }
 
-    // Stop current track and animations
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
+    if (audioRef.current) audioRef.current.pause();
     if (proceduralRef.current) {
       clearInterval(proceduralRef.current);
       proceduralRef.current = null;
     }
 
-    // 📥 Fetch and dynamically parse the .lrc file text
+    let parsedLyrics: { time: number; text: string }[] = [];
     try {
       const response = await fetch(track.lrcSrc);
-      const lrcText = await response.text();
-      track.lyrics = parseLRC(lrcText);
+      if (response.ok) {
+        const lrcText = await response.text();
+        parsedLyrics = parseLRC(lrcText);
+      }
     } catch (err) {
-      console.error("Could not fetch or parse LRC lyrics file:", err);
+      console.error("Could not load lyrics:", err);
     }
 
-    setCurrentTrack(track);
+    // 🔄 Update state immutably using a fresh copy
+    setCurrentTrack({
+      ...track,
+      lyrics: parsedLyrics
+    });
     setPlaying(true);
     setElapsed(0);
     setActiveLyricIndex(-1);
 
-    // 🔊 Load and initialize the native FLAC audio element
     const audio = new Audio(track.audioSrc);
     audioRef.current = audio;
 
-    // 🎛️ Handle timing updates directly from the audio file
     audio.ontimeupdate = () => {
       const currentTime = audio.currentTime;
       setElapsed(currentTime);
       
-      // Update active lyric based on timestamp match
       let idx = -1;
-      for (let i = 0; i < track.lyrics.length; i++) {
-        if (currentTime >= track.lyrics[i].time) {
-          idx = i;
-        } else {
-          break;
-        }
+      for (let i = 0; i < parsedLyrics.length; i++) {
+        if (currentTime >= parsedLyrics[i].time) idx = i;
+        else break;
       }
       setActiveLyricIndex(idx);
     };
 
     audio.onloadedmetadata = () => {
-      setTrackDuration(audio.duration);
+      setTrackDuration(audio.duration || 0);
     };
 
     audio.onended = () => {
       stopPlayback();
     };
 
-    // Sparkle animation effects
     const chords = [261.63, 329.63, 392.0, 493.88];
     proceduralRef.current = startProceduralMelody(() => {
       const cx = window.innerWidth / 2;
@@ -121,7 +111,7 @@ export default function VinylPlayer() {
     });
     playChime(chords[0], "sine", 1.5, 0.1);
 
-    audio.play().catch((err) => console.error("Audio playback blocked:", err));
+    audio.play().catch((err) => console.log("Playback interaction requirement:", err));
   };
 
   const stopPlayback = () => {
@@ -142,11 +132,8 @@ export default function VinylPlayer() {
   };
 
   const handleVinylClick = () => {
-    if (playing) {
-      stopPlayback();
-    } else if (tracks[0]) {
-      selectTrack(tracks[0], { currentTarget: { getBoundingClientRect: () => ({ left: 0, top: 0, width: 0, height: 0 }) } } as unknown as React.MouseEvent);
-    }
+    if (playing) stopPlayback();
+    else if (tracks[0]) selectTrack(tracks[0], { currentTarget: { getBoundingClientRect: () => ({ left: 0, top: 0, width: 0, height: 0 }) } } as unknown as React.MouseEvent);
   };
 
   return (
@@ -180,10 +167,7 @@ export default function VinylPlayer() {
           transition={{ duration: 0.6 }}
         >
           <div className="relative">
-            <div
-              className={`vinyl-glow absolute -inset-3 rounded-full ${playing ? "playing" : ""}`}
-              aria-hidden
-            />
+            <div className={`vinyl-glow absolute -inset-3 rounded-full ${playing ? "playing" : ""}`} aria-hidden />
             <motion.button
               onClick={handleVinylClick}
               className="relative h-56 w-56 cursor-pointer rounded-full"
@@ -200,9 +184,7 @@ export default function VinylPlayer() {
               <div className="absolute inset-[15%] rounded-full bg-gradient-to-br from-rose-400 to-amber-500 shadow-inner">
                 <div className="absolute inset-2 rounded-full bg-gradient-to-br from-amber-100 to-rose-200 opacity-90">
                   <div className="flex h-full flex-col items-center justify-center text-center">
-                    <span className="font-serif-elegant text-[0.6rem] uppercase tracking-[0.3em] text-rose-800/70">
-                      side a
-                    </span>
+                    <span className="font-serif-elegant text-[0.6rem] uppercase tracking-[0.3em] text-rose-800/70">side a</span>
                     <span className="mt-1 font-serif-elegant text-sm font-bold text-rose-900">
                       {currentTrack ? currentTrack.name : "for heena"}
                     </span>
@@ -228,10 +210,7 @@ export default function VinylPlayer() {
                 <div
                   key={i}
                   className={`w-1 rounded-full bg-amber-500 ${playing ? "music-bar-active" : ""}`}
-                  style={{
-                    height: "4px",
-                    animationDelay: playing ? `${i * 0.15}s` : "0s",
-                  }}
+                  style={{ height: "4px", animationDelay: playing ? `${i * 0.15}s` : "0s" }}
                 />
               ))}
             </div>
@@ -265,16 +244,12 @@ export default function VinylPlayer() {
                   key={track.name}
                   onClick={(e) => selectTrack(track, e)}
                   className={`group flex w-full items-center justify-between rounded-2xl border p-4 text-left transition-all interactive-scale ${
-                    isActive
-                      ? "border-amber-300 bg-amber-50/80 shadow-md"
-                      : "border-white/70 bg-white/60 hover:border-amber-200 hover:bg-white/90 hover:shadow-md"
+                    isActive ? "border-amber-300 bg-amber-50/80 shadow-md" : "border-white/70 bg-white/60 hover:border-amber-200 hover:bg-white/90 hover:shadow-md"
                   }`}
                   whileHover={{ x: 4 }}
                 >
                   <div className="flex items-center gap-4">
-                    <span className="font-serif-elegant text-lg text-stone-400 group-hover:text-amber-700">
-                      {indexStr}
-                    </span>
+                    <span className="font-serif-elegant text-lg text-stone-400 group-hover:text-amber-700">{indexStr}</span>
                     <div>
                       <div className="font-bold text-stone-800">{track.name}</div>
                       <div className="font-mono-elegant text-[0.65rem] uppercase tracking-[0.2em] text-stone-400">
@@ -283,9 +258,7 @@ export default function VinylPlayer() {
                     </div>
                   </div>
                   <motion.div
-                    className={`flex h-9 w-9 items-center justify-center rounded-full ${
-                      isActive ? "bg-amber-500 text-white" : "bg-stone-100 text-stone-400 group-hover:bg-amber-100 group-hover:text-amber-600"
-                    }`}
+                    className={`flex h-9 w-9 items-center justify-center rounded-full ${isActive ? "bg-amber-500 text-white" : "bg-stone-100 text-stone-400 group-hover:bg-amber-100 group-hover:text-amber-600"}`}
                     animate={isActive ? { scale: [1, 1.1, 1] } : {}}
                     transition={{ duration: 1, repeat: Infinity }}
                   >
@@ -315,13 +288,8 @@ export default function VinylPlayer() {
                 transition={{ duration: 0.4 }}
               >
                 <div className="no-scrollbar h-full overflow-y-auto p-5" style={{ maxHeight: 280 }}>
-                  {currentTrack.lyrics?.map((line, i) => (
-                    <div
-                      key={i}
-                      className={`lyric-line font-serif-elegant text-base ${
-                        i === activeLyricIndex ? "active" : ""
-                      }`}
-                    >
+                  {(currentTrack.lyrics || []).map((line, i) => (
+                    <div key={i} className={`lyric-line font-serif-elegant text-base ${i === activeLyricIndex ? "active" : ""}`}>
                       {line.text}
                     </div>
                   ))}
