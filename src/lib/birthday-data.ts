@@ -96,54 +96,41 @@ export type Track = {
   lyrics: { time: number; text: string }[];
 };
 
+export type Track = {
+  name: string;
+  duration: string;
+  mood: string;
+  audioSrc: string; // Path to your .flac file
+  lrcSrc: string;   // Path to your .lrc file
+  lyrics: { time: number; text: string }[]; // Will hold the parsed lyrics
+};
+
 export const tracks: Track[] = [
   {
     name: "Golden Hour",
     duration: "3:42",
     mood: "Warm · Ambient",
-    lyrics: [
-      { time: 0, text: "Light bends softly through the curtain" },
-      { time: 4, text: "Everything turns to honey and rose" },
-      { time: 8, text: "The day holds its breath for a moment" },
-      { time: 12, text: "And so do I, watching you glow" },
-      { time: 16, text: "Stay here, where the light is kindest" },
-      { time: 20, text: "Stay, while the world moves slow" },
-      { time: 24, text: "Some hours are made of ordinary magic" },
-      { time: 28, text: "And this one belongs to you" },
-    ],
+    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Your Thoughts.flac",
+    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Your Thoughts.lrc",
+    lyrics: [], // We will parse the .lrc file into this array
   },
   {
     name: "Letters Unsent",
     duration: "4:08",
     mood: "Tender · Reflective",
-    lyrics: [
-      { time: 0, text: "I wrote you a thousand quiet letters" },
-      { time: 4, text: "In the margins of ordinary days" },
-      { time: 8, text: "In the space between two words" },
-      { time: 12, text: "In the way the light hit your face" },
-      { time: 16, text: "Most of them I never sent" },
-      { time: 20, text: "But you read them anyway" },
-      { time: 24, text: "Some people speak in spoken language" },
-      { time: 28, text: "We speak in stays" },
-    ],
+    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Saajna.flac",
+    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Saajna.lrc",
+    lyrics: [],
   },
   {
     name: "Slow Bloom",
     duration: "3:15",
     mood: "Bright · Hopeful",
-    lyrics: [
-      { time: 0, text: "Not everything arrives in a hurry" },
-      { time: 4, text: "Some beauty takes its own sweet time" },
-      { time: 8, text: "A petal, a pause, a quiet opening" },
-      { time: 12, text: "The slow bravery of becoming" },
-      { time: 16, text: "You taught me to trust the unfolding" },
-      { time: 20, text: "To let the season do its work" },
-      { time: 24, text: "And bloomed, you are breathtaking" },
-      { time: 28, text: "Worth every patient morning" },
-    ],
+    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Perfect.m4a",
+    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Perfect.lrc",
+    lyrics: [],
   },
 ];
-
 export type TimelineMoment = {
   id: number;
   season: string;
