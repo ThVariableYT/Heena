@@ -315,7 +315,7 @@ export default function VinylPlayer() {
                 transition={{ duration: 0.4 }}
               >
                 <div className="no-scrollbar h-full overflow-y-auto p-5" style={{ maxHeight: 280 }}>
-                  {currentTrack.lyrics.map((line, i) => (
+                  {currentTrack.lyrics?.map((line, i) => (
                     <div
                       key={i}
                       className={`lyric-line font-serif-elegant text-base ${
