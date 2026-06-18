@@ -1,0 +1,2002 @@
+     1→<!DOCTYPE html>
+     2→<html lang="en">
+     3→<head>
+     4→    <meta charset="UTF-8">
+     5→    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+     6→    <title>For Heena — Happy Birthday</title>
+     7→    <script src="https://cdn.tailwindcss.com"></script>
+     8→    <link rel="preconnect" href="https://fonts.googleapis.com">
+     9→    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    10→    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    11→    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    12→    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    13→    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    14→    <style>
+    15→        body {
+    16→            font-family: 'Plus Jakarta Sans', sans-serif;
+    17→            background: radial-gradient(at 0% 0%, #fff5f0 0px, transparent 50%), 
+    18→                        radial-gradient(at 100% 0%, #fae8ff 0px, transparent 50%), 
+    19→                        radial-gradient(at 50% 100%, #fffbeb 0px, transparent 50%), 
+    20→                        #fdfbf7;
+    21→            overflow-x: hidden;
+    22→            -webkit-tap-highlight-color: transparent;
+    23→        }
+    24→        .font-serif-elegant {
+    25→            font-family: 'Playfair Display', Georgia, serif;
+    26→        }
+    27→        ::-webkit-scrollbar {
+    28→            width: 6px;
+    29→        }
+    30→        ::-webkit-scrollbar-track {
+    31→            background: rgba(255, 245, 238, 0.3);
+    32→        }
+    33→        ::-webkit-scrollbar-thumb {
+    34→            background: rgba(251, 191, 36, 0.2);
+    35→            border-radius: 9999px;
+    36→            transition: background 0.3s;
+    37→        }
+    38→        ::-webkit-scrollbar-thumb:hover {
+    39→            background: rgba(244, 63, 94, 0.4);
+    40→        }
+    41→        .glass-premium {
+    42→            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.6));
+    43→            backdrop-filter: blur(30px);
+    44→            -webkit-backdrop-filter: blur(30px);
+    45→            border: 1px solid rgba(255, 255, 255, 0.8);
+    46→            box-shadow: 
+    47→                inset 0 1px 3px rgba(255, 255, 255, 0.9), 
+    48→                0 25px 50px -12px rgba(244, 63, 94, 0.05);
+    49→        }
+    50→        .glass-premium-dark {
+    51→            background: linear-gradient(135deg, rgba(15, 10, 18, 0.98), rgba(24, 16, 29, 0.92));
+    52→            backdrop-filter: blur(30px);
+    53→            -webkit-backdrop-filter: blur(30px);
+    54→            border: 1px solid rgba(255, 255, 255, 0.06);
+    55→            box-shadow: 
+    56→                0 30px 60px rgba(10, 5, 15, 0.5),
+    57→                inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    58→        }
+    59→        .glass-card {
+    60→            background: rgba(255, 255, 255, 0.55);
+    61→            backdrop-filter: blur(20px);
+    62→            -webkit-backdrop-filter: blur(20px);
+    63→            border: 1px solid rgba(255, 255, 255, 0.7);
+    64→        }
+    65→        .perspective {
+    66→            perspective: 1500px;
+    67→        }
+    68→        .preserve-3d {
+    69→            transform-style: preserve-3d;
+    70→        }
+    71→        .backface-hidden {
+    72→            backface-visibility: hidden;
+    73→            -webkit-backface-visibility: hidden;
+    74→        }
+    75→        .rotate-y-180 {
+    76→            transform: rotateY(180deg);
+    77→        }
+    78→        .liquid-blob-1 {
+    79→            width: 600px;
+    80→            height: 600px;
+    81→            background: radial-gradient(circle, rgba(255, 200, 190, 0.4) 0%, rgba(255, 170, 190, 0.15) 60%, rgba(255, 255, 255, 0) 100%);
+    82→            filter: blur(80px);
+    83→            animation: morph-1 18s ease-in-out infinite alternate;
+    84→            will-change: transform, border-radius;
+    85→            transform: translate3d(0,0,0);
+    86→            backface-visibility: hidden;
+    87→            -webkit-backface-visibility: hidden;
+    88→        }
+    89→        .liquid-blob-2 {
+    90→            width: 650px;
+    91→            height: 650px;
+    92→            background: radial-gradient(circle, rgba(245, 210, 255, 0.4) 0%, rgba(190, 220, 255, 0.15) 60%, rgba(255, 255, 255, 0) 100%);
+    93→            filter: blur(90px);
+    94→            animation: morph-2 22s ease-in-out infinite alternate-reverse;
+    95→            will-change: transform, border-radius;
+    96→            transform: translate3d(0,0,0);
+    97→            backface-visibility: hidden;
+    98→            -webkit-backface-visibility: hidden;
+    99→        }
+   100→        @keyframes morph-1 {
+   101→            0% { border-radius: 40% 60% 70% 30% / 40% 40% 60% 60%; transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+   102→            50% { border-radius: 60% 40% 50% 50% / 50% 40% 60% 50%; transform: translate3d(40px, -40px, 0) scale(1.1) rotate(45deg); }
+   103→            100% { border-radius: 50% 50% 40% 60% / 50% 50% 40% 50%; transform: translate3d(-30px, 40px, 0) scale(0.95) rotate(90deg); }
+   104→        }
+   105→        @keyframes morph-2 {
+   106→            0% { border-radius: 50% 50% 40% 60% / 50% 50% 40% 50%; transform: translate3d(0, 0, 0) scale(0.95) rotate(0deg); }
+   107→            50% { border-radius: 40% 60% 50% 50% / 40% 50% 50% 60%; transform: translate3d(-40px, 40px, 0) scale(1.05) rotate(-45deg); }
+   108→            100% { border-radius: 60% 40% 60% 40% / 50% 40% 60% 40%; transform: translate3d(40px, -40px, 0) scale(1) rotate(-90deg); }
+   109→        }
+   110→        @keyframes float-item {
+   111→            0%, 100% { transform: translateY(0) rotate(0deg); }
+   112→            50% { transform: translateY(-8px) rotate(1deg); }
+   113→        }
+   114→        .animate-float {
+   115→            animation: float-item 6s ease-in-out infinite;
+   116→        }
+   117→        .shimmer {
+   118→            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+   119→            background-size: 200% 100%;
+   120→            animation: shimmer-anim 4s infinite;
+   121→        }
+   122→        @keyframes shimmer-anim {
+   123→            0% { background-position: -200% 0; }
+   124→            100% { background-position: 200% 0; }
+   125→        }
+   126→        .vial-bubble {
+   127→            position: absolute;
+   128→            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(251, 191, 36, 0.45));
+   129→            border-radius: 50%;
+   130→            pointer-events: none;
+   131→            bottom: 10px;
+   132→            animation: float-bubble 4s infinite linear;
+   133→            box-shadow: 0 0 4px rgba(251, 191, 36, 0.15);
+   134→        }
+   135→        @keyframes float-bubble {
+   136→            0% { transform: translateY(0) scale(0.4) translateX(0); opacity: 0; }
+   137→            15% { opacity: 0.8; }
+   138→            85% { opacity: 0.8; }
+   139→            100% { transform: translateY(-120px) scale(1.2) translateX(var(--wobble, 8px)); opacity: 0; }
+   140→        }
+   141→        .music-bar-active {
+   142→            animation: bounce-bar 0.7s ease-in-out infinite alternate;
+   143→        }
+   144→        @keyframes bounce-bar {
+   145→            0% { height: 4px; }
+   146→            100% { height: 24px; }
+   147→        }
+   148→        .flame {
+   149→            width: 10px;
+   150→            height: 22px;
+   151→            background: linear-gradient(to top, rgba(244, 63, 94, 0.95) 0%, rgba(251, 191, 36, 0.9) 60%, rgba(255, 255, 255, 1) 100%);
+   152→            border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+   153→            filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 12px rgba(244, 63, 94, 0.5));
+   154→            animation: flicker 1.2s ease-in-out infinite alternate;
+   155→            transform-origin: bottom center;
+   156→            display: block;
+   157→            will-change: transform;
+   158→            transform: translate3d(0,0,0);
+   159→        }
+   160→        @keyframes flicker {
+   161→            0% { transform: scale(1) rotate(-1deg); }
+   162→            50% { transform: scale(1.04, 0.96) rotate(0.5deg); }
+   163→            100% { transform: scale(0.96, 1.04) rotate(-0.5deg); }
+   164→        }
+   165→        .lyric-line {
+   166→            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+   167→            opacity: 0.15;
+   168→            padding: 6px 0;
+   169→        }
+   170→        .lyric-line.active {
+   171→            opacity: 1;
+   172→            color: #b45309;
+   173→            font-weight: 700;
+   174→            transform: scale(1.05);
+   175→            text-shadow: 0 0 12px rgba(251, 191, 36, 0.3);
+   176→        }
+   177→        .premium-border-glowing {
+   178→            position: relative;
+   179→        }
+   180→        .premium-border-glowing::after {
+   181→            content: '';
+   182→            position: absolute;
+   183→            inset: -1px;
+   184→            border-radius: inherit;
+   185→            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(251, 191, 36, 0.3), rgba(244, 63, 94, 0.25), rgba(255,255,255,0.9));
+   186→            z-index: -1;
+   187→            opacity: 0.5;
+   188→            pointer-events: none;
+   189→            transition: opacity 300ms;
+   190→        }
+   191→        .premium-border-glowing:hover::after {
+   192→            opacity: 0.9;
+   193→        }
+   194→        .card-inner {
+   195→            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+   196→            will-change: transform;
+   197→            transform: translate3d(0,0,0);
+   198→            backface-visibility: hidden;
+   199→            -webkit-backface-visibility: hidden;
+   200→        }
+   201→        .vinyl-glow {
+   202→            box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+   203→            transition: box-shadow 0.3s ease-in-out;
+   204→        }
+   205→        .vinyl-glow.playing {
+   206→            animation: glow-pulse 2s infinite alternate;
+   207→        }
+   208→        @keyframes glow-pulse {
+   209→            0% { box-shadow: 0 0 8px 1px rgba(251, 191, 36, 0.15), 0 0 15px 3px rgba(244, 63, 94, 0.08); }
+   210→            100% { box-shadow: 0 0 15px 4px rgba(251, 191, 36, 0.35), 0 0 25px 8px rgba(244, 63, 94, 0.18); }
+   211→        }
+   212→        .parallax-deck-container {
+   213→            position: relative;
+   214→            width: 100%;
+   215→            display: flex;
+   216→            flex-direction: column;
+   217→            gap: 4rem;
+   218→        }
+   219→        .parallax-node {
+   220→            position: relative;
+   221→            width: 100%;
+   222→            display: flex;
+   223→            will-change: transform;
+   224→            transform: translate3d(0,0,0);
+   225→            backface-visibility: hidden;
+   226→            -webkit-backface-visibility: hidden;
+   227→        }
+   228→        .parallax-card-body {
+   229→            width: 290px;
+   230→            height: 380px;
+   231→            cursor: pointer;
+   232→            position: relative;
+   233→            transition: transform 0.3s;
+   234→            will-change: transform;
+   235→            transform: translate3d(0,0,0);
+   236→            backface-visibility: hidden;
+   237→            -webkit-backface-visibility: hidden;
+   238→        }
+   239→        .parallax-card-body:hover {
+   240→            transform: scale(1.01);
+   241→        }
+   242→        .glow-aura {
+   243→            position: absolute;
+   244→            inset: 0;
+   245→            border-radius: 2rem;
+   246→            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(244, 63, 94, 0.1));
+   247→            filter: blur(20px);
+   248→            opacity: 0;
+   249→            transition: opacity 0.4s;
+   250→            pointer-events: none;
+   251→            z-index: -1;
+   252→        }
+   253→        .parallax-card-body:hover .glow-aura {
+   254→            opacity: 1;
+   255→        }
+   256→        @media (max-width: 640px) {
+   257→            .parallax-card-body {
+   258→                width: 260px;
+   259→                height: 340px;
+   260→            }
+   261→        }
+   262→        .vinyl-metallic {
+   263→            background: repeating-conic-gradient(
+   264→                from 0deg,
+   265→                #111 0deg 8deg,
+   266→                #1e1e1e 8deg 16deg,
+   267→                #111 16deg 24deg,
+   268→                #222 24deg 32deg,
+   269→                #111 32deg 40deg
+   270→            );
+   271→        }
+   272→        .interactive-scale {
+   273→            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+   274→        }
+   275→        .interactive-scale:hover {
+   276→            transform: scale(1.015);
+   277→        }
+   278→        .interactive-scale:active {
+   279→            transform: scale(0.985);
+   280→        }
+   281→        .editorial-line {
+   282→            height: 1px;
+   283→            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+   284→            position: relative;
+   285→        }
+   286→        .editorial-line::after {
+   287→            content: '✦';
+   288→            position: absolute;
+   289→            left: 50%;
+   290→            top: 50%;
+   291→            transform: translate(-50%, -50%) scale(0.8);
+   292→            background: #fdfbf7;
+   293→            padding: 0 8px;
+   294→            color: #d4af37;
+   295→        }
+   296→        .ambient-glow-circle {
+   297→            position: absolute;
+   298→            border-radius: 50%;
+   299→            background: radial-gradient(circle, rgba(251, 191, 36, 0.18) 0%, transparent 70%);
+   300→            filter: blur(50px);
+   301→            pointer-events: none;
+   302→            z-index: 0;
+   303→            animation: rotate-slow 24s linear infinite;
+   304→            will-change: transform;
+   305→            transform: translate3d(0,0,0);
+   306→            backface-visibility: hidden;
+   307→            -webkit-backface-visibility: hidden;
+   308→        }
+   309→        @keyframes rotate-slow {
+   310→            0% { transform: rotate(0deg) translate3d(0, 0, 0); }
+   311→            50% { transform: rotate(180deg) translate3d(20px, -20px, 0); }
+   312→            100% { transform: rotate(360deg) translate3d(0, 0, 0); }
+   313→        }
+   314→        .spring-string-container {
+   315→            width: 100%;
+   316→            height: 100%;
+   317→            cursor: pointer;
+   318→        }
+   319→        .code-interactive-token {
+   320→            display: inline-block;
+   321→            cursor: pointer;
+   322→            transition: all 0.2s;
+   323→            position: relative;
+   324→        }
+   325→        .code-interactive-token:hover {
+   326→            transform: translateY(-1px);
+   327→            text-shadow: 0 0 8px currentColor;
+   328→        }
+   329→        .ide-tab-btn {
+   330→            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+   331→        }
+   332→        .ide-tab-btn.active {
+   333→            background-color: rgba(255, 255, 255, 0.06);
+   334→            color: #ffffff;
+   335→            border-bottom-color: #f43f5e;
+   336→        }
+   337→        .hacker-payload-btn {
+   338→            background: rgba(244, 63, 94, 0.03);
+   339→            backdrop-filter: blur(12px);
+   340→            -webkit-backdrop-filter: blur(12px);
+   341→            border: 1px solid rgba(244, 63, 94, 0.2);
+   342→            box-shadow: 
+   343→                inset 0 1px 1px rgba(255, 255, 255, 0.05),
+   344→                0 0 20px rgba(244, 63, 94, 0.1);
+   345→            font-family: 'Fira Code', monospace;
+   346→            position: relative;
+   347→            overflow: hidden;
+   348→            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+   349→        }
+   350→        .hacker-payload-btn:hover:not(:disabled) {
+   351→            background: rgba(244, 63, 94, 0.06);
+   352→            border-color: rgba(244, 63, 94, 0.4);
+   353→            box-shadow: 
+   354→                0 0 35px rgba(244, 63, 94, 0.25),
+   355→                inset 0 0 8px rgba(244, 63, 94, 0.1);
+   356→            transform: translateY(-1px);
+   357→        }
+   358→        .hacker-corner {
+   359→            position: absolute;
+   360→            width: 6px;
+   361→            height: 6px;
+   362→            border-color: rgba(244, 63, 94, 0.5);
+   363→            border-style: solid;
+   364→            pointer-events: none;
+   365→            transition: border-color 0.3s;
+   366→        }
+   367→        .hacker-payload-btn:hover .hacker-corner {
+   368→            border-color: rgba(244, 63, 94, 0.9);
+   369→        }
+   370→        .corner-tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+   371→        .corner-tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
+   372→        .corner-bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
+   373→        .corner-br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+   374→        .no-scrollbar::-webkit-scrollbar {
+   375→            display: none;
+   376→        }
+   377→        .no-scrollbar {
+   378→            -ms-overflow-style: none;
+   379→            scrollbar-width: none;
+   380→        }
+   381→        #harpPhysicsContainer, #cakeSection {
+   382→            touch-action: none;
+   383→        }
+   384→    </style>
+   385→</head>
+   386→<body class="relative min-h-screen text-stone-800 antialiased overflow-x-hidden select-none">
+   387→
+   388→    <div class="fixed top-4 right-4 z-50 flex gap-2">
+   389→        <button id="fullscreenToggle" class="w-10 h-10 rounded-full glass-premium flex items-center justify-center text-stone-700 hover:text-rose-500 transition-all shadow-xl interactive-scale">
+   390→            <i class="fa-solid fa-expand text-xs"></i>
+   391→        </button>
+   392→        <button id="musicToggle" class="hidden w-10 h-10 rounded-full glass-premium flex items-center justify-center text-stone-700 hover:text-rose-500 transition-all shadow-xl interactive-scale">
+   393→            <i class="fa-solid fa-music text-xs"></i>
+   394→        </button>
+   395→    </div>
+   396→
+   397→    <div class="fixed inset-0 pointer-events-none z-0">
+   398→        <div class="absolute top-[-5%] left-[-15%] liquid-blob-1"></div>
+   399→        <div class="absolute bottom-[-5%] right-[-15%] liquid-blob-2"></div>
+   400→        <div class="ambient-glow-circle w-96 h-96 top-1/4 left-1/4"></div>
+   401→        <div class="ambient-glow-circle w-80 h-80 bottom-1/4 right-1/4" style="animation-delay: -5s;"></div>
+   402→    </div>
+   403→
+   404→    <canvas id="sparkleCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
+   405→    <div id="transitionFlash" class="fixed inset-0 bg-white opacity-0 pointer-events-none z-50 transition-opacity duration-300"></div>
+   406→
+   407→    <div id="customToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass-premium px-6 py-4 rounded-[2rem] text-xs font-bold text-stone-800 text-center shadow-2xl transition-all duration-500 translate-y-20 opacity-0 pointer-events-none max-w-[85vw] border-amber-200/40">
+   408→        <span id="toastText"></span>
+   409→    </div>
+   410→
+   411→    <div id="introScreen" class="fixed inset-0 bg-[#060408] z-40 flex flex-col items-center justify-center p-4 overflow-y-auto">
+   412→        <canvas id="codeStreamCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-20"></canvas>
+   413→        
+   414→        <div class="w-full max-w-4xl px-4 py-8 flex flex-col items-center relative z-10">
+   415→            <div class="relative w-36 h-36 mb-6 flex items-center justify-center cursor-pointer group interactive-scale" id="giftBoxContainer">
+   416→                <div class="absolute inset-0 rounded-full border border-pink-500/20 animate-[spin_20s_linear_infinite] flex items-center justify-center">
+   417→                    <div class="text-[0.5rem] font-mono text-pink-500/30 tracking-[0.25em] font-extrabold uppercase select-none">&lt;HEENA_INIT&gt; &lt;/HEENA_INIT&gt;</div>
+   418→                </div>
+   419→                <div class="absolute inset-2 rounded-full border border-dashed border-amber-400/30 animate-[spin_10s_linear_infinite_reverse]"></div>
+   420→                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-[#140e1a] via-[#20152b] to-[#0f0714] border-2 border-amber-400/40 flex items-center justify-center shadow-[0_0_30px_rgba(251,191,36,0.15)] transition-transform duration-500 group-hover:scale-105 group-hover:border-amber-300 relative overflow-hidden">
+   421→                    <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+   422→                    <span class="font-serif-elegant text-5xl text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-200 to-amber-500 font-normal select-none filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">H</span>
+   423→                </div>
+   424→                <div class="absolute top-2 right-2 w-3 h-3 bg-emerald-500 rounded-full animate-pulse border-2 border-[#060408] shadow-[0_0_8px_#10b981]"></div>
+   425→            </div>
+   426→
+   427→            <div class="glass-premium-dark p-4 md:p-8 rounded-[2rem] w-full shadow-3xl relative overflow-hidden border border-white/5 animate-float" id="ideContainer">
+   428→                <div class="absolute top-0 left-0 w-full h-[2px] shimmer bg-gradient-to-r from-pink-500 via-amber-400 to-rose-500"></div>
+   429→                
+   430→                <div class="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
+   431→                    <div class="flex gap-1.5 items-center flex-shrink-0">
+   432→                        <span class="w-2 h-2 rounded-full bg-rose-500/90"></span>
+   433→                        <span class="w-2 h-2 rounded-full bg-amber-500/90"></span>
+   434→                        <span class="w-2 h-2 rounded-full bg-emerald-500/90"></span>
+   435→                    </div>
+   436→                    <div class="flex gap-1 overflow-x-auto no-scrollbar flex-1 justify-end sm:justify-start ml-3">
+   437→                        <button class="ide-tab-btn active px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="friendshipJs">friendship.js</button>
+   438→                        <button class="ide-tab-btn px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="coreJson">core.json</button>
+   439→                        <button class="ide-tab-btn px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="styleCss">style.css</button>
+   440→                    </div>
+   441→                </div>
+   442→
+   443→                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+   444→                    <div class="lg:col-span-7 bg-[#09060b] p-4 md:p-6 rounded-xl border border-white/5 font-mono text-[0.65rem] md:text-[0.75rem] text-stone-300 space-y-4 shadow-inner relative overflow-hidden min-h-[240px]" id="editorPane">
+   445→                        
+   446→                        <div id="friendshipJs" class="tab-content space-y-1.5 leading-relaxed">
+   447→                            <div>
+   448→                                <span class="text-pink-400">const</span> 
+   449→                                <span id="tokenFriend" class="code-interactive-token text-amber-300 font-semibold">heena</span> 
+   450→                                <span class="text-pink-400">=</span> 
+   451→                                <span class="text-pink-400">new</span> 
+   452→                                <span class="text-sky-300">SpecialFriend</span>(<span class="text-emerald-400">"Warm Heart"</span>);
+   453→                            </div>
+   454→                            
+   455→                            <div class="pl-4">
+   456→                                <span class="text-amber-300">heena</span>.<span class="text-sky-300">coreAttributes</span> <span class="text-pink-400">=</span> [
+   457→                            </div>
+   458→                            <div class="pl-8">
+   459→                                <span id="tokenStrength" class="code-interactive-token text-emerald-400">"quiet_strength"</span>, 
+   460→                                <span id="tokenHaven" class="code-interactive-token text-purple-400">"safe_haven"</span>, 
+   461→                                <span id="tokenGrace" class="code-interactive-token text-rose-400">"graceful_elegance"</span>
+   462→                            </div>
+   463→                            <div class="pl-4">];</div>
+   464→
+   465→                            <div class="pt-1">
+   466→                                <span class="text-pink-400">if</span> (<span class="text-amber-300">heena</span>.<span class="text-sky-300">isTrulyWonderful</span>()) {
+   467→                            </div>
+   468→                            <div class="pl-4">
+   469→                                <span class="text-sky-300">console</span>.<span class="text-purple-300">log</span>(<span class="text-emerald-400">"Compiling pure happiness..."</span>);
+   470→                            </div>
+   471→                            <div class="pl-4">
+   472→                                <span id="tokenTrigger" class="code-interactive-token text-amber-300 hover:text-amber-200 underline decoration-dotted font-semibold">triggerCelebration</span>();
+   473→                            </div>
+   474→                            <div>}</div>
+   475→                        </div>
+   476→
+   477→                        <div id="coreJson" class="tab-content hidden space-y-1.5 leading-relaxed text-indigo-200">
+   478→                            <div>{</div>
+   479→                            <div class="pl-4">
+   480→                                <span class="text-rose-400">"name"</span>: <span class="text-emerald-400">"Heena"</span>,
+   481→                            </div>
+   482→                            <div class="pl-4">
+   483→                                <span class="text-rose-400">"character"</span>: <span class="text-emerald-400">"spectacular_friend"</span>,
+   484→                            </div>
+   485→                            <div class="pl-4">
+   486→                                <span class="text-rose-400">"empathyLevel"</span>: <span id="tokenEmpathy" class="code-interactive-token text-amber-300 font-semibold">"infinite"</span>,
+   487→                            </div>
+   488→                            <div class="pl-4">
+   489→                                <span class="text-rose-400">"chocolatePreference"</span>: <span class="text-emerald-400">"hazelnut_truffle"</span>,
+   490→                            </div>
+   491→                            <div class="pl-4">
+   492→                                <span class="text-rose-400">"patienceStatus"</span>: <span id="tokenPatience" class="code-interactive-token text-amber-300 font-semibold">"unlimited"</span>
+   493→                            </div>
+   494→                            <div>}</div>
+   495→                        </div>
+   496→
+   497→                        <div id="styleCss" class="tab-content hidden space-y-1.5 leading-relaxed text-stone-400">
+   498→                            <div>
+   499→                                <span class="text-purple-300">:root</span> {
+   500→                            </div>
+   501→                            <div class="pl-4">
+   502→                                <span class="text-sky-300">--warmth</span>: <span id="tokenWarmth" class="code-interactive-token text-emerald-400 font-semibold">#ff4b72</span>;
+   503→                            </div>
+   504→                            <div class="pl-4">
+   505→                                <span class="text-sky-300">--calmVibe</span>: <span class="text-emerald-400">#ffccd5</span>;
+   506→                            </div>
+   507→                            <div class="pl-4">
+   508→                                <span class="text-sky-300">--heartStatus</span>: <span id="tokenHeart" class="code-interactive-token text-amber-300 font-semibold">"pure_gold"</span>;
+   509→                            </div>
+   510→                            <div>}</div>
+   511→                        </div>
+   512→
+   513→                    </div>
+   514→
+   515→                    <div class="lg:col-span-5 flex flex-col justify-between h-full space-y-4 text-left">
+   516→                        <div>
+   517→                            <span class="text-[0.6rem] text-pink-400 font-mono uppercase tracking-[0.2em] font-extrabold">Dynamic Heartbeat Engine</span>
+   518→                            <h1 class="text-3xl md:text-4xl font-serif-elegant font-semibold text-white tracking-tight mt-1 mb-1.5 leading-tight">Ready to Run</h1>
+   519→                            <p class="text-stone-400 text-xs leading-relaxed font-sans">A customized interactive experience engineered to unlock a dedicated collection of shared chords, memories, and warm appreciation.</p>
+   520→                        </div>
+   521→
+   522→                        <div class="space-y-1.5">
+   523→                            <span class="text-[0.55rem] font-mono uppercase tracking-wider text-stone-500">System Logs</span>
+   524→                            <div class="bg-[#09060b] border border-white/5 p-3 rounded-lg font-mono text-[0.65rem] space-y-0.5 text-stone-400 overflow-hidden h-24 flex flex-col justify-end shadow-inner" id="compilerLogContainer">
+   525→                                <div class="text-stone-600">&gt; Environment: online</div>
+   526→                                <div class="text-stone-600">&gt; Awaiting execution command...</div>
+   527→                            </div>
+   528→                        </div>
+   529→
+   530→                        <div class="space-y-3 pt-1">
+   531→                            <div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+   532→                                <div id="compileProgressBar" class="bg-gradient-to-r from-pink-500 via-amber-400 to-rose-500 h-full w-0 transition-all duration-300"></div>
+   533→                            </div>
+   534→                            
+   535→                            <button id="openGiftBtn" class="hacker-payload-btn w-full text-white tracking-[0.12em] text-[0.8rem] uppercase py-5 px-6 rounded-xl flex flex-col items-center justify-center gap-1 font-bold transition-all duration-300">
+   536→                                <div class="hacker-corner corner-tl"></div>
+   537→                                <div class="hacker-corner corner-tr"></div>
+   538→                                <div class="hacker-corner corner-bl"></div>
+   539→                                <div class="hacker-corner corner-br"></div>
+   540→                                
+   541→                                <div class="flex items-center gap-2.5">
+   542→                                    <span class="text-rose-400 font-extrabold animate-pulse">&gt;</span>
+   543→                                    <span id="compileBtnText" class="tracking-[0.15em]">RUN PAYLOAD: INJECT_JOY.SH</span>
+   544→                                    <i class="fa-solid fa-terminal text-rose-400 animate-pulse text-xs"></i>
+   545→                                </div>
+   546→                                <div class="flex items-center gap-1.5 text-[0.55rem] text-stone-500 tracking-[0.08em] font-normal uppercase select-none">
+   547→                                    <span>Target: Heena_Bday</span>
+   548→                                    <span class="text-rose-500/30">•</span>
+   549→                                    <span>Payload: Active</span>
+   550→                                </div>
+   551→                            </button>
+   552→                        </div>
+   553→                    </div>
+   554→                </div>
+   555→            </div>
+   556→        </div>
+   557→    </div>
+   558→
+   559→    <div id="mainContent" class="hidden min-h-screen pb-20 max-w-6xl mx-auto relative z-10 px-4 sm:px-8">
+   560→
+   561→        <header class="relative pt-12 pb-10 text-center select-none animate-float" id="mainHeader">
+   562→            <div class="absolute top-2 left-4 text-rose-300/60 text-base"><i class="fa-solid fa-star"></i></div>
+   563→            <div class="absolute top-12 right-4 text-amber-300/60 text-lg"><i class="fa-solid fa-sparkles animate-pulse"></i></div>
+   564→            
+   565→            <p class="text-[0.6rem] tracking-[0.4em] uppercase text-rose-500 font-extrabold mb-0.5">Celestial Tribute</p>
+   566→            <h1 class="text-5xl md:text-7xl font-serif-elegant text-transparent bg-clip-text bg-gradient-to-r from-stone-900 via-rose-800 to-amber-700 leading-none py-3">Heena</h1>
+   567→            <div class="editorial-line w-36 mx-auto my-3"></div>
+   568→            <p class="text-[0.7rem] text-stone-500 italic tracking-wider max-w-md mx-auto leading-relaxed px-4">An interactive, luminous archive dedicated to a soul of pure warmth, grace, and timeless friendship.</p>
+   569→        </header>
+   570→
+   571→        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+   572→            <div class="lg:col-span-7 space-y-8" id="mainLeftCol">
+   573→                <section class="glass-premium p-6 sm:p-8 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing" id="cakeSection">
+   574→                    <div class="absolute -top-16 -left-16 w-32 h-32 bg-amber-100/30 rounded-full filter blur-3xl"></div>
+   575→                    <h3 class="font-serif-elegant text-xl md:text-2xl text-stone-900 mb-0.5 tracking-wider font-semibold">Hazelnut Truffle Patisserie</h3>
+   576→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-8">Swipe or tap to blow out the flames</p>
+   577→                    
+   578→                    <div class="flex justify-center items-end h-32 relative mb-2">
+   579→                        <div class="relative w-56 h-24 flex flex-col items-center justify-end">
+   580→                            
+   581→                            <div class="absolute bottom-12 flex gap-8 z-30 items-end">
+   582→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="1">
+   583→                                    <div class="flame"></div>
+   584→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   585→                                    <div class="body w-2 h-7 bg-gradient-to-r from-amber-100 to-amber-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   586→                                </div>
+   587→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="2">
+   588→                                    <div class="flame" style="animation-delay: 0.15s;"></div>
+   589→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   590→                                    <div class="body w-2 h-7 bg-gradient-to-r from-rose-100 to-rose-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   591→                                </div>
+   592→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="3">
+   593→                                    <div class="flame" style="animation-delay: 0.3s;"></div>
+   594→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   595→                                    <div class="body w-2 h-7 bg-gradient-to-r from-amber-100 to-amber-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   596→                                </div>
+   597→                            </div>
+   598→
+   599→                            <div class="w-44 h-8 bg-gradient-to-b from-[#25130b] to-[#160b06] border-t border-amber-800/30 rounded-t-lg relative shadow-xl flex items-center justify-center z-20">
+   600→                                <div class="absolute -top-1 left-0 right-0 h-1 bg-gradient-to-b from-[#dfba9b] to-transparent opacity-50 rounded-t-lg pointer-events-none"></div>
+   601→                                <div class="absolute top-0.5 flex gap-1 justify-center w-full scale-75 opacity-80">
+   602→                                    <span class="text-[0.4rem]">🌰</span>
+   603→                                    <span class="text-[0.4rem]">✨</span>
+   604→                                    <span class="text-[0.4rem]">🌰</span>
+   605→                                    <span class="text-[0.4rem]">✨</span>
+   606→                                    <span class="text-[0.4rem]">🌰</span>
+   607→                                </div>
+   608→                            </div>
+   609→
+   610→                            <div class="w-48 h-6 bg-gradient-to-b from-[#341d14] to-[#1d0f0a] rounded-t-md relative shadow-md z-10">
+   611→                                <div class="absolute top-0.5 left-4 w-1 h-3 bg-[#d4af37]/70 rounded-b-full"></div>
+   612→                                <div class="absolute top-0.5 left-12 w-0.5 h-2 bg-[#d4af37]/70 rounded-b-full"></div>
+   613→                                <div class="absolute top-0.5 left-24 w-1 h-4 bg-[#d4af37]/70 rounded-b-full"></div>
+   614→                                <div class="absolute top-0.5 left-36 w-1 h-2 bg-[#d4af37]/70 rounded-b-full"></div>
+   615→                            </div>
+   616→
+   617→                            <div class="w-52 h-2 bg-stone-300/40 rounded-full blur-[1px] absolute -bottom-0.5"></div>
+   618→                        </div>
+   619→                    </div>
+   620→
+   621→                    <div id="wishMessage" class="hidden mt-6 p-5 bg-gradient-to-br from-white/95 to-white/70 border border-rose-100 rounded-[1.5rem] text-xs md:text-sm text-stone-700 leading-relaxed font-serif-elegant italic shadow-lg transition-all duration-1000">
+   622→                        “I hope life brings you quiet joy, deep peace, and wonderful moments, just like the happiness you always give to everyone around you, Heena. You deserve the absolute best.” ✨
+   623→                    </div>
+   624→                </section>
+   625→
+   626→                <section class="space-y-5">
+   627→                    <div class="px-2 text-center">
+   628→                        <h3 class="font-serif-elegant text-2xl md:text-3xl text-stone-900 tracking-widest font-semibold">The Memories Archipelago</h3>
+   629→                        <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mt-1">Scroll to float the crystals • Tap to reveal</p>
+   630→                    </div>
+   631→
+   632→                    <div class="parallax-deck-container py-4" id="deckContainer">
+   633→                        
+   634→                        <div class="parallax-node justify-center sm:justify-start" data-speed="20" data-rot="-3">
+   635→                            <div class="parallax-card-body perspective group">
+   636→                                <div class="glow-aura"></div>
+   637→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   638→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#ffeedd]/70 to-[#ffdaeb]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(253,164,186,0.15)]">
+   639→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(253,164,186,0.08)] transition-all group-hover:scale-[1.01] duration-300">🌸</div>
+   640→                                        <div class="text-center py-1">
+   641→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Quiet Strength</p>
+   642→                                            <p class="text-[0.55rem] text-rose-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   643→                                        </div>
+   644→                                    </div>
+   645→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fff5f2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   646→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Quiet Strength</p>
+   647→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">You are always calm and polite. Even though in the beginning I assumed that you were rude, I am glad that I was proved wrong.</p>
+   648→                                    </div>
+   649→                                </div>
+   650→                            </div>
+   651→                        </div>
+   652→
+   653→                        <div class="parallax-node justify-center sm:justify-end" data-speed="10" data-rot="2">
+   654→                            <div class="parallax-card-body perspective group">
+   655→                                <div class="glow-aura"></div>
+   656→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   657→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#e8f0fe]/70 to-[#fdf4e5]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(251,191,36,0.12)]">
+   658→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(251,191,36,0.06)] transition-all group-hover:scale-[1.01] duration-300">🤍</div>
+   659→                                        <div class="text-center py-1">
+   660→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Safe Haven</p>
+   661→                                            <p class="text-[0.55rem] text-amber-600 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   662→                                        </div>
+   663→                                    </div>
+   664→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fffbf2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   665→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Safe Haven</p>
+   666→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">Whenever I needed to complain about small things, you always listened. You were so patient and kind, and you always made me feel safe.</p>
+   667→                                    </div>
+   668→                                </div>
+   669→                            </div>
+   670→                        </div>
+   671→
+   672→                        <div class="parallax-node justify-center sm:justify-start" data-speed="15" data-rot="-2">
+   673→                            <div class="parallax-card-body perspective group">
+   674→                                <div class="glow-aura"></div>
+   675→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   676→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#f3e8ff]/70 to-[#ffe5ec]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(168,85,247,0.12)]">
+   677→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(168,85,247,0.06)] transition-all group-hover:scale-[1.01] duration-300">🍂</div>
+   678→                                        <div class="text-center py-1">
+   679→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Always There</p>
+   680→                                            <p class="text-[0.55rem] text-purple-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   681→                                        </div>
+   682→                                    </div>
+   683→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fff5f8] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   684→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Always There</p>
+   685→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">No matter what happens, you are always a true and loyal friend. Knowing you are with me makes me very happy.</p>
+   686→                                    </div>
+   687→                                </div>
+   688→                            </div>
+   689→                        </div>
+   690→
+   691→                        <div class="parallax-node justify-center sm:justify-end" data-speed="8" data-rot="3">
+   692→                            <div class="parallax-card-body perspective group">
+   693→                                <div class="glow-aura"></div>
+   694→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   695→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#e0f2fe]/70 to-[#fae8ff]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(14,165,233,0.12)]">
+   696→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(14,165,233,0.06)] transition-all group-hover:scale-[1.01] duration-300">🪐</div>
+   697→                                        <div class="text-center py-1">
+   698→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Beautiful Grace</p>
+   699→                                            <p class="text-[0.55rem] text-sky-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   700→                                        </div>
+   701→                                    </div>
+   702→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#f5fbf2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   703→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Beautiful Grace</p>
+   704→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">You face every problem with so much patience and calm. You are a truly wonderful friend.</p>
+   705→                                    </div>
+   706→                                </div>
+   707→                            </div>
+   708→                        </div>
+   709→                    </div>
+   710→                </section>
+   711→            </div>
+   712→
+   713→            <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-8" id="mainRightCol">
+   714→                <section class="glass-premium p-5 sm:p-6 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   715→                    <div class="absolute -top-16 -right-16 w-28 h-28 bg-amber-100/10 rounded-full filter blur-2xl"></div>
+   716→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Cosmic Sync</h3>
+   717→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">We love the same music!</p>
+   718→
+   719→                    <div class="flex flex-col gap-4 mb-5 transition-all duration-500" id="cosmicPlaySection">
+   720→                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+   721→                            <div class="relative w-24 h-24 flex items-center justify-center group flex-shrink-0 cursor-pointer animate-float" id="vinylPlayer">
+   722→                                <div class="absolute -inset-1 rounded-full bg-transparent vinyl-glow" id="vinylOuterGlow"></div>
+   723→                                <div class="absolute inset-0 rounded-full border-4 border-stone-850 shadow-lg flex items-center justify-center vinyl-metallic" id="vinylRecord">
+   724→                                    <div class="w-16 h-16 rounded-full border border-stone-800/10 opacity-30"></div>
+   725→                                    <div class="w-10 h-10 rounded-full border border-stone-900 opacity-50 animate-pulse"></div>
+   726→                                    <div class="absolute w-7 h-7 rounded-full bg-gradient-to-tr from-amber-200 to-amber-300 border-2 border-stone-950 flex items-center justify-center shadow-inner">
+   727→                                        <div class="w-1 h-1 rounded-full bg-stone-950"></div>
+   728→                                    </div>
+   729→                                </div>
+   730→                                <div class="absolute right-0 top-0 w-8 h-12 origin-top-right transform translate-x-1 -translate-y-1 transition-transform duration-700 ease-out" id="tonearm" style="transform: rotate(-15deg);">
+   731→                                    <svg viewBox="0 0 50 100" class="w-full h-full filter drop-shadow-md">
+   732→                                        <path d="M 40,10 L 15,10 L 15,65 L 12,75" stroke="#dfba9b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+   733→                                        <circle cx="40" cy="10" r="5" fill="#a87f5d"/>
+   734→                                        <rect x="6" y="73" width="10" height="12" rx="1.5" fill="#5c4033"/>
+   735→                                    </svg>
+   736→                                </div>
+   737→                            </div>
+   738→
+   739→                            <div class="flex flex-col items-center sm:items-start space-y-0.5 text-center sm:text-left">
+   740→                                <span id="currentTrackName" class="font-serif-elegant text-xs font-semibold text-stone-800">Tap to play a song</span>
+   741→                                <span class="text-[0.55rem] text-stone-450 uppercase tracking-widest font-bold">Heena & You</span>
+   742→                                <div class="flex gap-1 h-5 items-end mt-1">
+   743→                                    <div class="w-1 bg-rose-400 rounded-full h-1" id="mbar1"></div>
+   744→                                    <div class="w-1 bg-amber-400 rounded-full h-1" id="mbar2"></div>
+   745→                                    <div class="w-1 bg-purple-400 rounded-full h-1" id="mbar3"></div>
+   746→                                    <div class="w-1 bg-rose-300 rounded-full h-1" id="mbar4"></div>
+   747→                                </div>
+   748→                            </div>
+   749→                        </div>
+   750→
+   751→                        <div id="lyricsContainer" class="hidden w-full max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out glass-card rounded-xl border border-stone-200/40 flex flex-col p-3">
+   752→                            <div class="flex justify-between items-center mb-1 px-1">
+   753→                                <span class="text-[0.55rem] font-bold uppercase tracking-[0.2em] text-rose-500">Live Lyrics</span>
+   754→                                <div class="flex items-center gap-1">
+   755→                                    <button id="decreaseLyricsText" class="w-4 h-4 rounded-full bg-white/40 hover:bg-white flex items-center justify-center text-stone-700 transition-all text-[0.55rem]">
+   756→                                        <i class="fa-solid fa-minus"></i>
+   757→                                    </button>
+   758→                                    <button id="increaseLyricsText" class="w-4 h-4 rounded-full bg-white/40 hover:bg-white flex items-center justify-center text-stone-700 transition-all text-[0.55rem]">
+   759→                                        <i class="fa-solid fa-plus"></i>
+   760→                                    </button>
+   761→                                </div>
+   762→                            </div>
+   763→                            <div id="lyricsScrollWindow" class="overflow-y-auto scroll-smooth flex flex-col items-center justify-start py-4 min-h-[100px] max-h-[300px] w-full" style="resize: vertical; height: 130px;">
+   764→                                <div id="lyricsHolder" class="space-y-3 text-center w-full px-1 font-serif-elegant italic text-xs md:text-sm text-stone-600"></div>
+   765→                            </div>
+   766→                            <div class="text-[0.5rem] text-stone-400 text-center mt-1 pointer-events-none">Drag corner to resize screen</div>
+   767→                        </div>
+   768→                    </div>
+   769→
+   770→                    <div class="space-y-1.5 text-left" id="trackListContainer"></div>
+   771→
+   772→                    <div class="mt-4 pt-4 border-t border-white/20">
+   773→                        <button id="showAddTrackBtn" class="w-full py-2 px-3 bg-white/25 hover:bg-white/40 border border-white/30 rounded-lg text-[0.55rem] font-bold tracking-wider uppercase text-stone-700 transition-all duration-300">
+   774→                            + Add Your Own Song
+   775→                        </button>
+   776→                        <div id="addTrackForm" class="hidden mt-3 space-y-2.5 p-3 glass-card rounded-xl transition-all duration-300 text-left">
+   777→                            <div>
+   778→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Song Name</label>
+   779→                                <input type="text" id="newTrackName" placeholder="e.g., Cozy Evening" class="w-full px-2.5 py-1.5 bg-white/80 border border-stone-200 rounded-lg text-sm focus:outline-none focus:border-amber-300">
+   780→                            </div>
+   781→                            <div>
+   782→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Select Audio File</label>
+   783→                                <input type="file" id="newTrackAudio" accept="audio/*" class="w-full text-[0.55rem] text-stone-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[0.55rem] file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer">
+   784→                            </div>
+   785→                            <div>
+   786→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Select Synced Lyrics (.lrc / .txt)</label>
+   787→                                <input type="file" id="newTrackLyrics" accept=".lrc,.txt" class="w-full text-[0.55rem] text-stone-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[0.55rem] file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer">
+   788→                            </div>
+   789→                            <button id="saveTrackBtn" class="w-full py-1.5 bg-stone-900 hover:bg-stone-850 text-white rounded-lg text-[0.55rem] font-bold tracking-wider uppercase transition-all duration-300">
+   790→                                Add Song
+   791→                            </button>
+   792→                        </div>
+   793→                    </div>
+   794→                </section>
+   795→
+   796→                <section class="glass-premium p-6 sm:p-7 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   797→                    <div class="absolute -bottom-16 -right-16 w-28 h-28 bg-amber-100/15 rounded-full filter blur-2xl"></div>
+   798→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Vial of Luminescence</h3>
+   799→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">Tap the bottle to see a sweet note</p>
+   800→                    
+   801→                    <div class="relative w-28 h-36 mx-auto cursor-pointer flex items-center justify-center group" id="loveJar">
+   802→                        <div id="bubbleContainer" class="absolute inset-0 w-16 h-24 mx-auto overflow-hidden rounded-b-2xl bottom-3 pointer-events-none z-10"></div>
+   803→                        <svg viewBox="0 0 100 130" class="w-full h-full drop-shadow-lg transition-all duration-500 group-hover:scale-102 relative z-20">
+   804→                            <defs>
+   805→                                <linearGradient id="vialGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+   806→                                    <stop offset="0%" stop-color="rgba(255,255,255,0.85)"/>
+   807→                                    <stop offset="50%" stop-color="rgba(255,255,255,0.15)"/>
+   808→                                    <stop offset="100%" stop-color="rgba(255,218,185,0.3)"/>
+   809→                                </linearGradient>
+   810→                                <linearGradient id="goldAcc" x1="0%" y1="0%" x2="100%" y2="100%">
+   811→                                    <stop offset="0%" stop-color="#f5e6d3"/>
+   812→                                    <stop offset="50%" stop-color="#dfba9b"/>
+   813→                                    <stop offset="100%" stop-color="#a87f5d"/>
+   814→                                </linearGradient>
+   815→                                <linearGradient id="liquidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+   816→                                    <stop offset="0%" stop-color="rgba(253, 164, 186, 0.65)" />
+   817→                                    <stop offset="100%" stop-color="rgba(251, 191, 36, 0.75)" />
+   818→                                </linearGradient>
+   819→                                <mask id="liquidMask">
+   820→                                    <path d="M 42,32 C 23,35 12,60 12,85 C 12,115 28,130 50,130 C 72,130 88,115 88,85 C 88,60 77,35 58,32 Z" fill="#ffffff" />
+   821→                                </mask>
+   822→                            </defs>
+   823→                            <rect x="41" y="10" width="18" height="6" rx="1.5" fill="url(#goldAcc)"/>
+   824→                            <rect x="37" y="16" width="26" height="3" rx="1" fill="url(#goldAcc)"/>
+   825→                            <path d="M 42,19 L 58,19 L 58,32 L 42,32 Z" fill="rgba(255,255,255,0.25)"/>
+   826→                            <path d="M 42,32 C 23,35 12,60 12,85 C 12,115 28,130 50,130 C 72,130 88,115 88,85 C 88,60 77,35 58,32 Z" fill="url(#vialGlassGrad)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/>
+   827→                            
+   828→                            <g mask="url(#liquidMask)">
+   829→                                <path id="liquidLevel" d="M -100,85 Q -75,80 -50,85 T 0,85 T 50,85 T 100,85 T 150,85 T 200,85 L 200,135 L -100,135 Z" fill="url(#liquidGrad)" />
+   830→                            </g>
+   831→
+   832→                            <path d="M 22,65 C 25,50 35,40 45,36" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+   833→                            <circle cx="50" cy="95" r="9" fill="url(#goldAcc)" opacity="0.85"/>
+   834→                            <path d="M 50,90 L 51.5,93.5 L 55,93.5 L 52.2,95 L 53,98.5 L 50,96.8 L 47,98.5 L 47.8,95 L 45,93.5 L 48.5,93.5 Z" fill="#fff"/>
+   835→                        </svg>
+   836→                        <div id="jarSpark" class="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+   837→                            <i class="fa-solid fa-sparkles text-3xl text-amber-300 opacity-0 transform scale-50 transition-all duration-700"></i>
+   838→                        </div>
+   839→                    </div>
+   840→
+   841→                    <div id="jarNote" class="mt-5 p-4 bg-gradient-to-br from-white/95 to-white/60 border border-amber-100 rounded-[1.5rem] text-xs md:text-sm text-stone-700 leading-relaxed font-serif-elegant italic h-20 flex items-center justify-center text-center transition-all duration-300 shadow-inner">
+   842→                        Tap the bottle to see a sweet message of appreciation.
+   843→                    </div>
+   844→                </section>
+   845→
+   846→                <section class="glass-premium p-6 sm:p-7 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   847→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Harp of Whispers</h3>
+   848→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">Swipe or tap the chimes to hear celestial melodies</p>
+   849→                    <div class="relative h-40 px-2 select-none" id="harpPhysicsContainer">
+   850→                        <svg class="spring-string-container" id="harpStringsSvg" viewBox="0 0 400 180" preserveAspectRatio="none">
+   851→                            <path class="harp-string" d="M 40,0 Q 40,90 40,180" stroke="rgba(212, 175, 55, 0.35)" stroke-width="2" fill="none" data-index="0" data-note="261.63"/>
+   852→                            <path class="harp-string" d="M 104,0 Q 104,90 104,180" stroke="rgba(212, 175, 55, 0.4)" stroke-width="2" fill="none" data-index="1" data-note="293.66"/>
+   853→                            <path class="harp-string" d="M 168,0 Q 168,90 168,180" stroke="rgba(212, 175, 55, 0.45)" stroke-width="2" fill="none" data-index="2" data-note="329.63"/>
+   854→                            <path class="harp-string" d="M 232,0 Q 232,90 232,180" stroke="rgba(212, 175, 55, 0.5)" stroke-width="2" fill="none" data-index="3" data-note="392.00"/>
+   855→                            <path class="harp-string" d="M 296,0 Q 296,90 296,180" stroke="rgba(212, 175, 55, 0.55)" stroke-width="2" fill="none" data-index="4" data-note="440.00"/>
+   856→                            <path class="harp-string" d="M 360,0 Q 360,90 360,180" stroke="rgba(212, 175, 55, 0.6)" stroke-width="2" fill="none" data-index="5" data-note="523.25"/>
+   857→                        </svg>
+   858→                        <div class="absolute inset-x-0 bottom-1 flex justify-between px-3 text-[0.6rem] text-amber-800 font-extrabold tracking-widest pointer-events-none opacity-80">
+   859→                            <span>C</span>
+   860→                            <span>D</span>
+   861→                            <span>E</span>
+   862→                            <span>G</span>
+   863→                            <span>A</span>
+   864→                            <span>C</span>
+   865→                        </div>
+   866→                    </div>
+   867→                </section>
+   868→            </div>
+   869→        </div>
+   870→
+   871→        <footer class="mt-20 text-center select-none" id="mainFooter">
+   872→            <div class="w-10 h-[1px] bg-stone-300 mx-auto mb-3"></div>
+   873→            <p class="text-[0.55rem] tracking-[0.4em] text-rose-500 uppercase font-extrabold">Exclusively for Heena</p>
+   874→            <p class="text-xs font-serif-elegant italic text-stone-500 mt-0.5">A beautiful friendship glowing through time.</p>
+   875→        </footer>
+   876→
+   877→    </div>
+   878→
+   879→    <script>
+   880→        const myPlaylist = [
+   881→            {
+   882→                name: "Your Thoughts",
+   883→                audioFile: "Your Thoughts.flac",
+   884→                lyricsFile: "Your Thoughts.lrc"
+   885→            },
+   886→            {
+   887→                name: "Saajna",
+   888→                audioFile: "Saajna.flac",
+   889→                lyricsFile: "Saajna.lrc"
+   890→            },
+   891→            {
+   892→                name: "Perfect",
+   893→                audioFile: "Perfect.m4a",
+   894→                lyricsFile: "Perfect.lrc"
+   895→            }
+   896→        ];
+   897→
+   898→        const jarThoughts = [
+   899→            "You are elegant because you treat everyone with quiet kindness.",
+   900→            "You listen with your whole heart and make others feel important.",
+   901→            "When things get stressful, your calm energy helps everyone feel safe.",
+   902→            "Your warm laugh always makes people feel happy and relaxed.",
+   903→            "You are a deeply loyal friend, Heena. I can trust you with anything.",
+   904→            "Thank you for being so kind and making the world a sweeter place.",
+   905→            "Your friendship is a safe place full of comfort and happiness."
+   906→        ];
+   907→
+   908→        let audioCtx = null;
+   909→        let mainHarpGain = null;
+   910→        let delayNode = null;
+   911→        let feedbackNode = null;
+   912→
+   913→        function initAudio() {
+   914→            if (audioCtx) return;
+   915→            try {
+   916→                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+   917→                mainHarpGain = audioCtx.createGain();
+   918→                mainHarpGain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+   919→                
+   920→                delayNode = audioCtx.createDelay(1.0);
+   921→                delayNode.delayTime.setValueAtTime(0.3, audioCtx.currentTime);
+   922→                
+   923→                feedbackNode = audioCtx.createGain();
+   924→                feedbackNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+   925→                
+   926→                mainHarpGain.connect(audioCtx.destination);
+   927→                mainHarpGain.connect(delayNode);
+   928→                delayNode.connect(feedbackNode);
+   929→                feedbackNode.connect(delayNode);
+   930→                delayNode.connect(audioCtx.destination);
+   931→            } catch (e) {
+   932→            }
+   933→        }
+   934→
+   935→        window.addEventListener('click', () => {
+   936→            initAudio();
+   937→            if (audioCtx && audioCtx.state === 'suspended') {
+   938→                audioCtx.resume();
+   939→            }
+   940→        }, { once: true });
+   941→
+   942→        window.addEventListener('touchstart', () => {
+   943→            initAudio();
+   944→            if (audioCtx && audioCtx.state === 'suspended') {
+   945→                audioCtx.resume();
+   946→            }
+   947→        }, { once: true });
+   948→
+   949→        let vinylOsc = null;
+   950→        let vinylGain = null;
+   951→        let ambientActive = false;
+   952→        let ambientTimer = null;
+   953→        let ambientNodes = [];
+   954→        let uploadedAudio = null;
+   955→        let activeLyrics = [];
+   956→        let synthPlayInterval = null;
+   957→        let currentPlayType = null;
+   958→        let synthMockTime = 0;
+   959→        let lyricsBaseSize = 1.0;
+   960→
+   961→        const defaultLyrics = {
+   962→            "Your Thoughts": [
+   963→                { time: 0, text: "Welcome to Heena's Celebration Theme..." },
+   964→                { time: 3, text: "A melody crafted for a wonderful soul." },
+   965→                { time: 7, text: "You bring warmth to the coldest days..." },
+   966→                { time: 11, text: "And brighten every single path with your light." },
+   967→                { time: 15, text: "We hope this day is as sweet as you are." },
+   968→                { time: 19, text: "Happy Birthday, Heena!" }
+   969→            ],
+   970→            "Saajna": [
+   971→                { time: 0, text: "Thinking of all the times we shared..." },
+   972→                { time: 4, text: "Every laugh, every deep conversation." },
+   973→                { time: 8, text: "Through changing seasons and passing years..." },
+   974→                { time: 12, text: "Your beautiful loyalty has remained our anchor." },
+   975→                { time: 16, text: "Here is to many more precious memories together!" }
+   976→            ],
+   977→            "Perfect": [
+   978→                { time: 0, text: "A bright sky, a gorgeous peaceful dawn..." },
+   979→                { time: 3, text: "Your smile brings the sun when the rain is pouring." },
+   980→                { time: 7, text: "Never change your beautiful patient spirit..." },
+   981→                { time: 11, text: "You are the ultimate safe haven." },
+   982→                { time: 15, text: "Wishing you infinite happiness today and forever!" }
+   983→            ]
+   984→        };
+   985→
+   986→        function renderHardcodedTracklist() {
+   987→            const container = document.getElementById('trackListContainer');
+   988→            container.innerHTML = '';
+   989→            myPlaylist.forEach((track, index) => {
+   990→                const newIndex = index + 1;
+   991→                const indexStr = newIndex < 10 ? '0' + newIndex : newIndex;
+   992→                const btn = document.createElement('button');
+   993→                btn.className = "track-btn w-full p-3 bg-white/60 hover:bg-white/90 border border-white/60 hover:border-amber-200 rounded-xl flex items-center justify-between transition-all duration-300 group shadow-sm hover:shadow-md interactive-scale";
+   994→                btn.setAttribute('data-file', track.audioFile);
+   995→                btn.setAttribute('data-lyrics-file', track.lyricsFile);
+   996→                btn.setAttribute('data-name', track.name);
+   997→                btn.innerHTML = `
+   998→                    <div class="flex items-center gap-3">
+   999→                        <span class="text-[0.65rem] font-serif-elegant text-stone-500 group-hover:text-amber-800">${indexStr}</span>
+  1000→                        <span class="text-[0.7rem] font-bold text-stone-800">${track.name}</span>
+  1001→                    </div>
+  1002→                    <div class="w-6 h-6 rounded-full bg-stone-100 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
+  1003→                        <i class="fa-solid fa-play text-[0.55rem] text-stone-400 group-hover:text-amber-600"></i>
+  1004→                    </div>
+  1005→                `;
+  1006→                container.appendChild(btn);
+  1007→            });
+  1008→        }
+  1009→
+  1010→        function showToastMessage(text) {
+  1011→            const toast = document.getElementById('customToast');
+  1012→            const toastText = document.getElementById('toastText');
+  1013→            toastText.innerText = text;
+  1014→            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+  1015→            toast.classList.add('translate-y-0', 'opacity-100');
+  1016→            setTimeout(() => {
+  1017→                toast.classList.remove('translate-y-0', 'opacity-100');
+  1018→                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+  1019→            }, 5000);
+  1020→        }
+  1021→        
+  1022→        function playChime(freq = 523.25, type = 'sine', duration = 1.5, volume = 0.2, dest = null) {
+  1023→            initAudio();
+  1024→            if (!audioCtx) return;
+  1025→            if (audioCtx.state === 'suspended') {
+  1026→                audioCtx.resume();
+  1027→            }
+  1028→            const osc = audioCtx.createOscillator();
+  1029→            const gainNode = audioCtx.createGain();
+  1030→            osc.type = type;
+  1031→            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+  1032→            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+  1033→            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  1034→            osc.connect(gainNode);
+  1035→            
+  1036→            const targetDest = dest || mainHarpGain || audioCtx.destination;
+  1037→            gainNode.connect(targetDest);
+  1038→            
+  1039→            osc.start();
+  1040→            osc.stop(audioCtx.currentTime + duration);
+  1041→        }
+  1042→
+  1043→        function playCelebrationMelody() {
+  1044→            initAudio();
+  1045→            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51];
+  1046→            notes.forEach((freq, index) => {
+  1047→                setTimeout(() => playChime(freq, 'sine', 2.0, 0.12, mainHarpGain), index * 90);
+  1048→            });
+  1049→        }
+  1050→
+  1051→        function stopAmbientMusic() {
+  1052→            ambientActive = false;
+  1053→            document.getElementById('musicToggle').classList.remove('text-rose-500', 'shadow-[0_0_15px_rgba(244,63,94,0.4)]');
+  1054→            if (ambientTimer) {
+  1055→                clearInterval(ambientTimer);
+  1056→                ambientTimer = null;
+  1057→            }
+  1058→            if (audioCtx) {
+  1059→                ambientNodes.forEach(node => {
+  1060→                    try {
+  1061→                        node.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+  1062→                        setTimeout(() => {
+  1063→                            try { node.osc.stop(); } catch(e){}
+  1064→                        }, 500);
+  1065→                    } catch(e){}
+  1066→                });
+  1067→            }
+  1068→            ambientNodes = [];
+  1069→        }
+  1070→
+  1071→        function playAmbientPadNode(freq, delay, duration) {
+  1072→            if (!ambientActive || !audioCtx) return;
+  1073→            const osc = audioCtx.createOscillator();
+  1074→            const gainNode = audioCtx.createGain();
+  1075→            osc.type = 'sine';
+  1076→            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+  1077→            gainNode.gain.setValueAtTime(0, audioCtx.currentTime + delay);
+  1078→            gainNode.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + delay + 1.5);
+  1079→            gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime + delay + duration - 1.5);
+  1080→            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+  1081→            osc.connect(gainNode);
+  1082→            gainNode.connect(audioCtx.destination);
+  1083→            osc.start(audioCtx.currentTime + delay);
+  1084→            osc.stop(audioCtx.currentTime + delay + duration);
+  1085→
+  1086→            const record = { osc, gain: gainNode };
+  1087→            ambientNodes.push(record);
+  1088→            setTimeout(() => {
+  1089→                ambientNodes = ambientNodes.filter(n => n !== record);
+  1090→            }, (delay + duration) * 1000 + 200);
+  1091→        }
+  1092→
+  1093→        function triggerAmbientChord() {
+  1094→            const base = 130.81;
+  1095→            const chord = [base, base * 1.25, base * 1.5, base * 1.875, base * 2.5];
+  1096→            chord.forEach((freq, i) => {
+  1097→                playAmbientPadNode(freq, i * 0.15, 6.0);
+  1098→            });
+  1099→        }
+  1100→
+  1101→        function startAmbientMusic() {
+  1102→            initAudio();
+  1103→            if (!audioCtx) return;
+  1104→            if (audioCtx.state === 'suspended') {
+  1105→                audioCtx.resume();
+  1106→            }
+  1107→            if (!vinylRecord.classList.contains('paused-record')) {
+  1108→                stopVinylAndReset();
+  1109→            }
+  1110→            ambientActive = true;
+  1111→            document.getElementById('musicToggle').classList.add('text-rose-500', 'shadow-[0_0_15px_rgba(244,63,94,0.4)]');
+  1112→            triggerAmbientChord();
+  1113→            ambientTimer = setInterval(() => {
+  1114→                triggerAmbientChord();
+  1115→            }, 5500);
+  1116→        }
+  1117→
+  1118→        const canvas = document.getElementById('sparkleCanvas');
+  1119→        const ctx = canvas.getContext('2d');
+  1120→        let particles = [];
+  1121→        let mouseX = 0;
+  1122→        let mouseY = 0;
+  1123→        let animationFrameId = null;
+  1124→
+  1125→        function resizeCanvas() {
+  1126→            canvas.width = window.innerWidth;
+  1127→            canvas.height = window.innerHeight;
+  1128→        }
+  1129→        window.addEventListener('resize', resizeCanvas);
+  1130→        resizeCanvas();
+  1131→
+  1132→        class Sparkle {
+  1133→            constructor(x, y, colorType, customSpeedX = null, customSpeedY = null) {
+  1134→                this.x = x;
+  1135→                this.y = y;
+  1136→                this.size = Math.random() * 3 + 1.2;
+  1137→                this.speedX = customSpeedX !== null ? customSpeedX : Math.random() * 3.5 - 1.75;
+  1138→                this.speedY = customSpeedY !== null ? customSpeedY : Math.random() * -3.5 - 1.2;
+  1139→                
+  1140→                const r = Math.floor(Math.random() * 3);
+  1141→                if (colorType === 'gold') {
+  1142→                    this.color = r === 0 ? 'rgba(251, 191, 36, 0.95)' : r === 1 ? 'rgba(253, 186, 116, 0.9)' : 'rgba(255, 255, 255, 0.98)';
+  1143→                } else if (colorType === 'smoke') {
+  1144→                    this.color = 'rgba(145, 135, 130, 0.2)';
+  1145→                    this.size = Math.random() * 6 + 3;
+  1146→                    this.speedX = Math.random() * 0.6 - 0.3;
+  1147→                    this.speedY = Math.random() * -0.8 - 0.3;
+  1148→                } else {
+  1149→                    this.color = r === 0 ? 'rgba(244, 63, 94, 0.9)' : r === 1 ? 'rgba(216, 180, 254, 0.9)' : 'rgba(253, 186, 116, 0.9)';
+  1150→                }
+  1151→                
+  1152→                this.alpha = 1;
+  1153→                this.decay = Math.random() * 0.012 + 0.008;
+  1154→                this.rotation = Math.random() * Math.PI * 2;
+  1155→                this.rotationSpeed = Math.random() * 0.06 - 0.03;
+  1156→            }
+  1157→            update() {
+  1158→                this.x += this.speedX + Math.sin(this.y * 0.008 + this.rotation) * 0.3;
+  1159→                this.y += this.speedY;
+  1160→                if (this.color !== 'rgba(145, 135, 130, 0.25)') {
+  1161→                    this.speedY += 0.015;
+  1162→                }
+  1163→                this.alpha -= this.decay;
+  1164→                this.rotation += this.rotationSpeed;
+  1165→            }
+  1166→            draw() {
+  1167→                ctx.save();
+  1168→                ctx.globalAlpha = this.alpha;
+  1169→                ctx.translate(this.x, this.y);
+  1170→                ctx.rotate(this.rotation);
+  1171→                ctx.fillStyle = this.color;
+  1172→                
+  1173→                if (Math.random() > 0.5) {
+  1174→                    ctx.beginPath();
+  1175→                    for (let i = 0; i < 4; i++) {
+  1176→                        ctx.lineTo(0, -this.size * 1.1);
+  1177→                        ctx.lineTo(this.size * 0.25, -this.size * 0.25);
+  1178→                        ctx.rotate(Math.PI / 2);
+  1179→                    }
+  1180→                    ctx.closePath();
+  1181→                    ctx.fill();
+  1182→                } else {
+  1183→                    ctx.beginPath();
+  1184→                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+  1185→                    ctx.fill();
+  1186→                }
+  1187→                ctx.restore();
+  1188→            }
+  1189→        }
+  1190→
+  1191→        function createSparkles(x, y, count = 10, colorType = 'rainbow', customSX = null, customSY = null) {
+  1192→            for (let i = 0; i < count; i++) {
+  1193→                particles.push(new Sparkle(x, y, colorType, customSX, customSY));
+  1194→            }
+  1195→            if (!animationFrameId) {
+  1196→                animate();
+  1197→            }
+  1198→        }
+  1199→
+  1200→        function animate() {
+  1201→            if (particles.length === 0) {
+  1202→                ctx.clearRect(0, 0, canvas.width, canvas.height);
+  1203→                animationFrameId = null;
+  1204→                return;
+  1205→            }
+  1206→            ctx.clearRect(0, 0, canvas.width, canvas.height);
+  1207→            particles = particles.filter(p => p.alpha > 0);
+  1208→            particles.forEach(p => {
+  1209→                p.update();
+  1210→                p.draw();
+  1211→            });
+  1212→            animationFrameId = requestAnimationFrame(animate);
+  1213→        }
+  1214→
+  1215→        window.addEventListener('pointermove', (e) => {
+  1216→            mouseX = e.clientX;
+  1217→            mouseY = e.clientY;
+  1218→            if (Math.random() > 0.88) {
+  1219→                createSparkles(mouseX, mouseY, 1, 'gold', Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1);
+  1220→            }
+  1221→        });
+  1222→
+  1223→        window.addEventListener('click', (e) => {
+  1224→            if (e.target.closest('button') || e.target.closest('.candle') || e.target.closest('.parallax-card-body') || e.target.closest('#loveJar') || e.target.closest('#harpPhysicsContainer') || e.target.closest('#vinylPlayer') || e.target.closest('#cakeSection')) return;
+  1225→            createSparkles(e.clientX, e.clientY, 8, 'gold');
+  1226→            playChime(550 + Math.random() * 550, 'sine', 0.8, 0.08);
+  1227→        });
+  1228→
+  1229→        let introCanvas = document.getElementById('codeStreamCanvas');
+  1230→        let introCtx = introCanvas ? introCanvas.getContext('2d') : null;
+  1231→        let streamTokens = [];
+  1232→        let warpActive = false;
+  1233→        let warpSpeed = 1;
+  1234→
+  1235→        const codeElementsPool = [
+  1236→            "heena", "quiet_strength", "safe_haven", "warm_heart", "loyalty", "friendship.pkg", "celebrate()", "index.js", "style.css", "🌸", "🤍", "✨", ";", "const", "true", "npm_run", "git_push"
+  1237→        ];
+  1238→
+  1239→        function resizeIntroCanvas() {
+  1240→            if (introCanvas) {
+  1241→                introCanvas.width = window.innerWidth;
+  1242→                introCanvas.height = window.innerHeight;
+  1243→            }
+  1244→        }
+  1245→        window.addEventListener('resize', resizeIntroCanvas);
+  1246→        resizeIntroCanvas();
+  1247→
+  1248→        class CodeStreamToken {
+  1249→            constructor() {
+  1250→                this.reset();
+  1251→            }
+  1252→            reset() {
+  1253→                this.x = Math.random() * (introCanvas ? introCanvas.width : 500);
+  1254→                this.y = Math.random() * -(introCanvas ? introCanvas.height : 500);
+  1255→                this.text = codeElementsPool[Math.floor(Math.random() * codeElementsPool.length)];
+  1256→                this.speed = Math.random() * 1.0 + 0.5;
+  1257→                this.fontSize = Math.random() * 8 + 10;
+  1258→                this.color = Math.random() > 0.5 ? 'rgba(236, 72, 153, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+  1259→            }
+  1260→            update() {
+  1261→                if (warpActive) {
+  1262→                    this.y += this.speed * warpSpeed;
+  1263→                } else {
+  1264→                    this.y += this.speed;
+  1265→                }
+  1266→                if (introCanvas && this.y > introCanvas.height) {
+  1267→                    this.reset();
+  1268→                }
+  1269→            }
+  1270→            draw() {
+  1271→                if (!introCtx) return;
+  1272→                introCtx.font = `${this.fontSize}px 'Fira Code', monospace`;
+  1273→                introCtx.fillStyle = this.color;
+  1274→                introCtx.fillText(this.text, this.x, this.y);
+  1275→            }
+  1276→        }
+  1277→
+  1278→        for (let i = 0; i < 60; i++) {
+  1279→            streamTokens.push(new CodeStreamToken());
+  1280→        }
+  1281→
+  1282→        function animateIntroCanvas() {
+  1283→            if (!introCtx) return;
+  1284→            introCtx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+  1285→            streamTokens.forEach(t => {
+  1286→                t.update();
+  1287→                t.draw();
+  1288→            });
+  1289→            if (document.getElementById('introScreen').style.display !== 'none') {
+  1290→                requestAnimationFrame(animateIntroCanvas);
+  1291→            }
+  1292→        }
+  1293→        animateIntroCanvas();
+  1294→
+  1295→        function addLogLine(text, delay) {
+  1296→            const container = document.getElementById('compilerLogContainer');
+  1297→            setTimeout(() => {
+  1298→                const line = document.createElement('div');
+  1299→                line.className = "text-emerald-400";
+  1300→                line.innerText = text;
+  1301→                container.appendChild(line);
+  1302→                container.scrollTop = container.scrollHeight;
+  1303→                playChime(320 + Math.random() * 450, 'triangle', 0.2, 0.04);
+  1304→            }, delay);
+  1305→        }
+  1306→
+  1307→        document.querySelectorAll('.ide-tab-btn').forEach(btn => {
+  1308→            btn.addEventListener('click', function() {
+  1309→                document.querySelectorAll('.ide-tab-btn').forEach(b => b.classList.remove('active'));
+  1310→                this.classList.add('active');
+  1311→                
+  1312→                const target = this.getAttribute('data-target');
+  1313→                document.querySelectorAll('.tab-content').forEach(pane => pane.classList.add('hidden'));
+  1314→                document.getElementById(target).classList.remove('hidden');
+  1315→                
+  1316→                playChime(400 + Math.random() * 200, 'sine', 0.12, 0.06);
+  1317→            });
+  1318→        });
+  1319→
+  1320→        document.getElementById('openGiftBtn').addEventListener('click', () => {
+  1321→            const btn = document.getElementById('openGiftBtn');
+  1322→            btn.disabled = true;
+  1323→            document.getElementById('compileBtnText').innerText = "INJECTING PAYLOAD...";
+  1324→
+  1325→            initAudio();
+  1326→
+  1327→            const bar = document.getElementById('compileProgressBar');
+  1328→            gsap.to(bar, {
+  1329→                width: "100%",
+  1330→                duration: 2.0,
+  1331→                ease: "power1.inOut"
+  1332→            });
+  1333→
+  1334→            addLogLine("> Initiating sequence compiler...", 100);
+  1335→            addLogLine("> Resolving identity: Heena", 400);
+  1336→            addLogLine("> Mounting quiet_strength, safe_haven modules...", 800);
+  1337→            addLogLine("> Success: Compiled friendship values to infinite.", 1200);
+  1338→            addLogLine("> Executing visual celebration process...", 1600);
+  1339→
+  1340→            setTimeout(() => {
+  1341→                warpActive = true;
+  1342→                
+  1343→                const flash = document.getElementById('transitionFlash');
+  1344→                flash.classList.remove('pointer-events-none');
+  1345→                flash.classList.add('opacity-100');
+  1346→
+  1347→                gsap.to(window, {
+  1348→                    duration: 1.2,
+  1349→                    onUpdate: () => {
+  1350→                        warpSpeed += 2.0;
+  1351→                    },
+  1352→                    ease: 'power3.in'
+  1353→                });
+  1354→
+  1355→                setTimeout(() => {
+  1356→                    const main = document.getElementById('mainContent');
+  1357→                    main.classList.remove('hidden');
+  1358→                    document.getElementById('musicToggle').classList.remove('hidden');
+  1359→
+  1360→                    const transitionTimeline = gsap.timeline({
+  1361→                        onComplete: () => {
+  1362→                            document.getElementById('introScreen').style.display = 'none';
+  1363→                            flash.classList.add('pointer-events-none');
+  1364→                            flash.classList.remove('opacity-100');
+  1365→                            ScrollTrigger.refresh();
+  1366→                            updateCandleRects();
+  1367→                        }
+  1368→                    });
+  1369→
+  1370→                    transitionTimeline.to('#introScreen', {
+  1371→                        opacity: 0,
+  1372→                        duration: 0.7,
+  1373→                        ease: 'power2.inOut'
+  1374→                    })
+  1375→                    .fromTo('#mainContent',
+  1376→                        { opacity: 0 },
+  1377→                        { opacity: 1, duration: 0.9, ease: 'power2.out' },
+  1378→                        '-=0.7'
+  1379→                    )
+  1380→                    .fromTo('#mainHeader', 
+  1381→                        { opacity: 0, y: -30 },
+  1382→                        { opacity: 1, y: 0, duration: 1.0, ease: 'power4.out' },
+  1383→                        '-=0.7'
+  1384→                    )
+  1385→                    .fromTo('#mainLeftCol',
+  1386→                        { opacity: 0, x: -40 },
+  1387→                        { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' },
+  1388→                        '-=0.9'
+  1389→                    )
+  1390→                    .fromTo('#mainRightCol',
+  1391→                        { opacity: 0, x: 40 },
+  1392→                        { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' },
+  1393→                        '-=1.0'
+  1394→                    );
+  1395→
+  1396→                    setTimeout(() => {
+  1397→                        playCelebrationMelody();
+  1398→                        createSparkles(window.innerWidth / 2, window.innerHeight / 2, 80, 'rainbow');
+  1399→                    }, 150);
+  1400→
+  1401→                }, 900);
+  1402→
+  1403→            }, 2100);
+  1404→        });
+  1405→
+  1406→        document.getElementById('giftBoxContainer').addEventListener('click', (e) => {
+  1407→            createSparkles(e.clientX, e.clientY, 30, 'gold');
+  1408→            playChime(659.25, 'triangle', 0.8, 0.2, mainHarpGain);
+  1409→        });
+  1410→
+  1411→        const interactives = [
+  1412→            { id: 'tokenFriend', log: '> Query: heena -> Result: [Spectacular Friend, Warm Heart]' },
+  1413→            { id: 'tokenStrength', log: '> Load: quiet_strength -> Resilience state: ACTIVE' },
+  1414→            { id: 'tokenHaven', log: '> Connect: safe_haven -> Secure listening buffer initialized.' },
+  1415→            { id: 'tokenGrace', log: '> Render style: graceful_elegance -> Render status: Perfect.' },
+  1416→            { id: 'tokenTrigger', log: '> Execute: triggerCelebration() -> High happiness factor detected.' },
+  1417→            { id: 'tokenEmpathy', log: '> Empathy variable: infinite -> Status: Confirmed.' },
+  1418→            { id: 'tokenPatience', log: '> Patience status: unlimited -> Thread pool capacity optimized.' },
+  1419→            { id: 'tokenWarmth', log: '> Hex definition: #ff4b72 -> Thermal output: Infinite warmth.' },
+  1420→            { id: 'tokenHeart', log: '> Core classification: "pure_gold" -> Material density verified.' }
+  1421→        ];
+  1422→
+  1423→        interactives.forEach(item => {
+  1424→            const el = document.getElementById(item.id);
+  1425→            if (el) {
+  1426→                el.addEventListener('click', (e) => {
+  1427→                    createSparkles(e.clientX, e.clientY, 12, 'rainbow');
+  1428→                    playChime(380 + Math.random() * 450, 'sine', 0.8, 0.12, mainHarpGain);
+  1429→                    addLogLine(item.log, 40);
+  1430→                });
+  1431→            }
+  1432→        });
+  1433→
+  1434→        const cardTiltContainer = document.getElementById('ideContainer');
+  1435→        if (cardTiltContainer) {
+  1436→            let ideRect = null;
+  1437→            function updateIdeRect() {
+  1438→                ideRect = cardTiltContainer.getBoundingClientRect();
+  1439→            }
+  1440→            window.addEventListener('resize', updateIdeRect);
+  1441→            cardTiltContainer.addEventListener('pointerenter', updateIdeRect);
+  1442→            cardTiltContainer.addEventListener('touchstart', updateIdeRect);
+  1443→
+  1444→            window.addEventListener('pointermove', (e) => {
+  1445→                if (document.getElementById('introScreen').style.display === 'none') return;
+  1446→                if (!ideRect) updateIdeRect();
+  1447→                const x = e.clientX - ideRect.left - ideRect.width / 2;
+  1448→                const y = e.clientY - ideRect.top - ideRect.height / 2;
+  1449→                const factorX = x / ideRect.width;
+  1450→                const factorY = y / ideRect.height;
+  1451→                gsap.to(cardTiltContainer, {
+  1452→                    rotateY: factorX * 6,
+  1453→                    rotateX: -factorY * 6,
+  1454→                    duration: 0.5,
+  1455→                    ease: 'power2.out',
+  1456→                    transformPerspective: 1000
+  1457→                });
+  1458→            });
+  1459→        }
+  1460→
+  1461→        let blownCandles = 0;
+  1462→        let candleRects = [];
+  1463→
+  1464→        function updateCandleRects() {
+  1465→            candleRects = [];
+  1466→            document.querySelectorAll('.candle').forEach(candle => {
+  1467→                const flame = candle.querySelector('.flame');
+  1468→                if (flame) {
+  1469→                    const rect = flame.getBoundingClientRect();
+  1470→                    candleRects.push({
+  1471→                        element: candle,
+  1472→                        flame: flame,
+  1473→                        left: rect.left,
+  1474→                        right: rect.right,
+  1475→                        top: rect.top,
+  1476→                        bottom: rect.bottom,
+  1477→                        width: rect.width,
+  1478→                        height: rect.height
+  1479→                    });
+  1480→                }
+  1481→            });
+  1482→        }
+  1483→        window.addEventListener('resize', updateCandleRects);
+  1484→        
+  1485→        function triggerWishMessage() {
+  1486→            setTimeout(() => {
+  1487→                playCelebrationMelody();
+  1488→                document.getElementById('wishMessage').classList.remove('hidden');
+  1489→                for (let i = 0; i < 4; i++) {
+  1490→                    setTimeout(() => {
+  1491→                        createSparkles(window.innerWidth / 2, window.innerHeight / 3, 35, 'rainbow');
+  1492→                    }, i * 200);
+  1493→                }
+  1494→            }, 300);
+  1495→        }
+  1496→
+  1497→        const checkBlowInteractions = (clientX, clientY) => {
+  1498→            const padding = 20;
+  1499→            if (candleRects.length === 0) updateCandleRects();
+  1500→            candleRects.forEach(c => {
+  1501→                if (!c.flame.classList.contains('hidden')) {
+  1502→                    if (clientX >= c.left - padding && clientX <= c.right + padding &&
+  1503→                        clientY >= c.top - padding && clientY <= c.bottom + padding) {
+  1504→                        gsap.to(c.flame, {
+  1505→                            scale: 0,
+  1506→                            opacity: 0,
+  1507→                            duration: 0.4,
+  1508→                            ease: "back.in(1.5)",
+  1509→                            onComplete: () => {
+  1510→                                c.flame.classList.add('hidden');
+  1511→                            }
+  1512→                        });
+  1513→                        createSparkles(c.left + c.width / 2, c.top + c.height / 2, 25, 'smoke');
+  1514→                        createSparkles(c.left + c.width / 2, c.top + c.height / 2, 15, 'gold');
+  1515→                        playChime(587.33, 'triangle', 1.0, 0.15, mainHarpGain);
+  1516→                        blownCandles++;
+  1517→                        if (blownCandles === 3) {
+  1518→                            triggerWishMessage();
+  1519→                        }
+  1520→                    }
+  1521→                }
+  1522→            });
+  1523→        };
+  1524→
+  1525→        const cakeSection = document.getElementById('cakeSection');
+  1526→        cakeSection.addEventListener('pointermove', (e) => {
+  1527→            checkBlowInteractions(e.clientX, e.clientY);
+  1528→        });
+  1529→        cakeSection.addEventListener('touchmove', (e) => {
+  1530→            if (e.touches && e.touches[0]) {
+  1531→                checkBlowInteractions(e.touches[0].clientX, e.touches[0].clientY);
+  1532→            }
+  1533→        });
+  1534→
+  1535→        document.querySelectorAll('.candle').forEach(candle => {
+  1536→            candle.addEventListener('click', function() {
+  1537→                const flame = this.querySelector('.flame');
+  1538→                if (flame && !flame.classList.contains('hidden')) {
+  1539→                    gsap.to(flame, {
+  1540→                        scale: 0,
+  1541→                        opacity: 0,
+  1542→                        duration: 0.4,
+  1543→                        ease: "back.in(1.5)",
+  1544→                        onComplete: () => {
+  1545→                            flame.classList.add('hidden');
+  1546→                        }
+  1547→                    });
+  1548→                    const rect = flame.getBoundingClientRect();
+  1549→                    createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, 'smoke');
+  1550→                    createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 15, 'gold');
+  1551→                    playChime(587.33, 'triangle', 1.0, 0.15, mainHarpGain);
+  1552→                    blownCandles++;
+  1553→                    if (blownCandles === 3) {
+  1554→                        triggerWishMessage();
+  1555→                    }
+  1556→                }
+  1557→            });
+  1558→        });
+  1559→
+  1560→        gsap.registerPlugin(ScrollTrigger);
+  1561→
+  1562→        const parNodes = gsap.utils.toArray('.parallax-node');
+  1563→        
+  1564→        parNodes.forEach((node) => {
+  1565→            const speed = parseFloat(node.getAttribute('data-speed')) || 0;
+  1566→            const targetRot = parseFloat(node.getAttribute('data-rot')) || 0;
+  1567→
+  1568→            gsap.fromTo(node, 
+  1569→                {
+  1570→                    y: speed * 1.2,
+  1571→                    rotation: targetRot * 0.2
+  1572→                },
+  1573→                {
+  1574→                    y: -speed * 1.2,
+  1575→                    rotation: targetRot,
+  1576→                    ease: "none",
+  1577→                    scrollTrigger: {
+  1578→                        trigger: node,
+  1579→                        start: "top bottom",
+  1580→                        end: "bottom top",
+  1581→                        scrub: 1.5
+  1582→                    }
+  1583→                }
+  1584→            );
+  1585→
+  1586→            const card = node.querySelector('.parallax-card-body');
+  1587→            const inner = card.querySelector('.card-inner');
+  1588→
+  1589→            card.addEventListener('click', function(e) {
+  1590→                const isFlipped = inner.classList.toggle('rotate-y-180');
+  1591→                if (isFlipped) {
+  1592→                    gsap.to(inner, { rotateY: 180, duration: 0.7, ease: 'back.out(1.1)' });
+  1593→                    const rect = card.getBoundingClientRect();
+  1594→                    createSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 20, 'rainbow');
+  1595→                } else {
+  1596→                    gsap.to(inner, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'back.out(1.1)' });
+  1597→                }
+  1598→                playChime(440, 'sine', 0.8, 0.1, mainHarpGain);
+  1599→            });
+  1600→
+  1601→            let cardRect = null;
+  1602→            card.addEventListener('pointerenter', () => {
+  1603→                cardRect = card.getBoundingClientRect();
+  1604→            });
+  1605→            card.addEventListener('touchstart', () => {
+  1606→                cardRect = card.getBoundingClientRect();
+  1607→            });
+  1608→
+  1609→            card.addEventListener('pointermove', function(e) {
+  1610→                if (inner.classList.contains('rotate-y-180')) return;
+  1611→                if (!cardRect) cardRect = card.getBoundingClientRect();
+  1612→                const x = e.clientX - cardRect.left - cardRect.width / 2;
+  1613→                const y = e.clientY - cardRect.top - cardRect.height / 2;
+  1614→                
+  1615→                const factorX = x / cardRect.width;
+  1616→                const factorY = y / cardRect.height;
+  1617→                
+  1618→                gsap.to(inner, {
+  1619→                    rotateY: factorX * 25,
+  1620→                    rotateX: -factorY * 25,
+  1621→                    scale: 1.05,
+  1622→                    duration: 0.4,
+  1623→                    ease: 'power2.out'
+  1624→                });
+  1625→                
+  1626→                gsap.to(card, {
+  1627→                    boxShadow: `${-factorX * 25}px ${-factorY * 25}px 40px rgba(0,0,0,0.08)`,
+  1628→                    duration: 0.4,
+  1629→                    ease: 'power2.out'
+  1630→                });
+  1631→            });
+  1632→
+  1633→            card.addEventListener('pointerleave', function() {
+  1634→                cardRect = null;
+  1635→                if (inner.classList.contains('rotate-y-180')) {
+  1636→                    gsap.to(inner, { rotateY: 180, rotateX: 0, scale: 1, duration: 0.7, ease: 'power3.out' });
+  1637→                } else {
+  1638→                    gsap.to(inner, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.7, ease: 'power3.out' });
+  1639→                }
+  1640→                gsap.to(card, {
+  1641→                    boxShadow: "0 8px 25px rgba(0,0,0,0.04)",
+  1642→                    duration: 0.7,
+  1643→                    ease: 'power3.out'
+  1644→                });
+  1645→            });
+  1646→        });
+  1647→
+  1648→        document.querySelectorAll('.parallax-card-body').forEach((card, idx) => {
+  1649→            gsap.to(card, {
+  1650→                y: "random(-10, 10)",
+  1651→                x: "random(-5, 5)",
+  1652→                rotation: "random(-3, 3)",
+  1653→                duration: "random(4.5, 6)",
+  1654→                repeat: -1,
+  1655→                yoyo: true,
+  1656→                ease: "sine.inOut",
+  1657→                delay: idx * 0.4,
+  1658→                force3D: true
+  1659→            });
+  1660→        });
+  1661→
+  1662→        function createVialBubble() {
+  1663→            const container = document.getElementById('bubbleContainer');
+  1664→            if (!container) return;
+  1665→            const b = document.createElement('div');
+  1666→            b.classList.add('vial-bubble');
+  1667→            const size = Math.random() * 5 + 3.0;
+  1668→            b.style.width = `${size}px`;
+  1669→            b.style.height = `${size}px`;
+  1670→            b.style.left = `${Math.random() * 80 + 10}%`;
+  1671→            b.style.setProperty('--wobble', `${Math.random() * 24 - 12}px`);
+  1672→            b.style.animationDuration = `${Math.random() * 1.5 + 1.5}s`;
+  1673→            container.appendChild(b);
+  1674→            setTimeout(() => b.remove(), 4000);
+  1675→        }
+  1676→
+  1677→        setInterval(() => {
+  1678→            if (!document.getElementById('mainContent').classList.contains('hidden')) {
+  1679→                createVialBubble();
+  1680→            }
+  1681→        }, 400);
+  1682→
+  1683→        let liquidImpact = 0;
+  1684→        let liquidBaseY = 85;
+  1685→        let sloshFrequency = 0.08;
+  1686→        let sloshPhase = 0;
+  1687→
+  1688→        function updateLiquidPhysics() {
+  1689→            sloshPhase += sloshFrequency;
+  1690→            liquidImpact *= 0.95;
+  1691→            let currentAmp = 2.5 + liquidImpact;
+  1692→            let pathD = `M -100,${liquidBaseY} `;
+  1693→            for (let x = -100; x <= 300; x += 10) {
+  1694→                let sloshOffset = Math.sin(x * 0.03 + sloshPhase) * currentAmp;
+  1695→                pathD += `L ${x},${liquidBaseY + sloshOffset} `;
+  1696→            }
+  1697→            pathD += `L 200,135 L -100,135 Z`;
+  1698→            document.getElementById('liquidLevel').setAttribute('d', pathD);
+  1699→            requestAnimationFrame(updateLiquidPhysics);
+  1700→        }
+  1701→        updateLiquidPhysics();
+  1702→
+  1703→        document.getElementById('loveJar').addEventListener('click', function(e) {
+  1704→            playChime(783.99, 'sine', 1.0, 0.15, mainHarpGain);
+  1705→            liquidImpact = 18;
+  1706→
+  1707→            gsap.fromTo("#loveJar svg",
+  1708→                { rotation: -8, scale: 0.96 },
+  1709→                { rotation: 0, scale: 1, duration: 1.2, ease: "elastic.out(1.2, 0.3)" }
+  1710→            );
+  1711→
+  1712→            for (let i = 0; i < 15; i++) {
+  1713→                setTimeout(createVialBubble, i * 40);
+  1714→            }
+  1715→
+  1716→            const spark = document.querySelector('#jarSpark i');
+  1717→            spark.classList.remove('opacity-0', 'scale-50');
+  1718→            spark.classList.add('opacity-100', 'scale-125', '-translate-y-12');
+  1719→            
+  1720→            createSparkles(e.clientX, e.clientY, 25, 'gold');
+  1721→
+  1722→            setTimeout(() => {
+  1723→                spark.classList.add('opacity-0', 'scale-50');
+  1724→                spark.classList.remove('opacity-100', 'scale-125', '-translate-y-12');
+  1725→            }, 700);
+  1726→
+  1727→            const randomIndex = Math.floor(Math.random() * jarThoughts.length);
+  1728→            document.getElementById('jarNote').innerText = jarThoughts[randomIndex];
+  1729→        });
+  1730→
+  1731→        const vinylRecord = document.getElementById('vinylRecord');
+  1732→        const tonearm = document.getElementById('tonearm');
+  1733→        const currentTrackName = document.getElementById('currentTrackName');
+  1734→        const vinylOuterGlow = document.getElementById('vinylOuterGlow');
+  1735→        const mbar1 = document.getElementById('mbar1');
+  1736→        const mbar2 = document.getElementById('mbar2');
+  1737→        const mbar3 = document.getElementById('mbar3');
+  1738→        const mbar4 = document.getElementById('mbar4');
+  1739→
+  1740→        let vinylTween = gsap.to(vinylRecord, {
+  1741→            rotation: 360,
+  1742→            duration: 11,
+  1743→            repeat: -1,
+  1744→            ease: "none",
+  1745→            paused: true,
+  1746→            force3D: true
+  1747→        });
+  1748→
+  1749→        function stopVinylAndReset() {
+  1750→            gsap.to(vinylTween, { 
+  1751→                timeScale: 0, 
+  1752→                duration: 1.2, 
+  1753→                ease: "power2.in", 
+  1754→                onComplete: () => {
+  1755→                    vinylTween.pause();
+  1756→                    vinylRecord.classList.add('paused-record');
+  1757→                } 
+  1758→            });
+  1759→            vinylOuterGlow.classList.remove('playing');
+  1760→            gsap.to(tonearm, { rotation: -15, duration: 1.0, ease: "power2.inOut" });
+  1761→            currentTrackName.innerText = "Tap to play a song";
+  1762→            animateMusicBars(false);
+  1763→            if (uploadedAudio) {
+  1764→                uploadedAudio.pause();
+  1765→                uploadedAudio.currentTime = 0;
+  1766→            }
+  1767→            if (synthPlayInterval) {
+  1768→                clearInterval(synthPlayInterval);
+  1769→                synthPlayInterval = null;
+  1770→            }
+  1771→            hideLyricsContainer();
+  1772→        }
+  1773→
+  1774→        function animateMusicBars(start) {
+  1775→            if (start) {
+  1776→                mbar1.classList.add('music-bar-active');
+  1777→                mbar2.classList.add('music-bar-active');
+  1778→                mbar3.classList.add('music-bar-active');
+  1779→                mbar4.classList.add('music-bar-active');
+  1780→                mbar1.style.animationDelay = '0.1s';
+  1781→                mbar2.style.animationDelay = '0.3s';
+  1782→                mbar3.style.animationDelay = '0s';
+  1783→                mbar4.style.animationDelay = '0.4s';
+  1784→            } else {
+  1785→                mbar1.classList.remove('music-bar-active');
+  1786→                mbar2.classList.remove('music-bar-active');
+  1787→                mbar3.classList.remove('music-bar-active');
+  1788→                mbar4.classList.remove('music-bar-active');
+  1789→                mbar1.style.height = '4px';
+  1790→                mbar2.style.height = '4px';
+  1791→                mbar3.style.height = '4px';
+  1792→                mbar4.style.height = '4px';
+  1793→            }
+  1794→        }
+  1795→
+  1796→        function updateLyricsFontSize() {
+  1797→            const lines = document.querySelectorAll('.lyric-line');
+  1798→            lines.forEach(line => {
+  1799→                if (line.classList.contains('active')) {
+  1800→                    line.style.fontSize = `${lyricsBaseSize * 1.1}rem`;
+  1801→                } else {
+  1802→                    line.style.fontSize = `${lyricsBaseSize * 0.95}rem`;
+  1803→                }
+  1804→            });
+  1805→        }
+  1806→
+  1807→        document.getElementById('increaseLyricsText').addEventListener('click', (e) => {
+  1808→            e.stopPropagation();
+  1809→            if (lyricsBaseSize < 1.4) {
+  1810→                lyricsBaseSize += 0.08;
+  1811→                updateLyricsFontSize();
+  1812→            }
+  1813→        });
+  1814→
+  1815→        document.getElementById('decreaseLyricsText').addEventListener('click', (e) => {
+  1816→            e.stopPropagation();
+  1817→            if (lyricsBaseSize > 0.8) {
+  1818→                lyricsBaseSize -= 0.08;
+  1819→                updateLyricsFontSize();
+  1820→            }
+  1821→        });
+  1822→
+  1823→        function showLyricsContainer(lyricsArray) {
+  1824→            activeLyrics = lyricsArray;
+  1825→            const container = document.getElementById('lyricsContainer');
+  1826→            const holder = document.getElementById('lyricsHolder');
+  1827→            
+  1828→            holder.innerHTML = '';
+  1829→            
+  1830→            if (!activeLyrics || activeLyrics.length === 0) {
+  1831→                hideLyricsContainer();
+  1832→                return;
+  1833→            }
+  1834→
+  1835→            activeLyrics.forEach((line, index) => {
+  1836→                const el = document.createElement('div');
+  1837→                el.className = 'lyric-line';
+  1838→                el.id = `lyric-${index}`;
+  1839→                el.innerText = line.text;
+  1840→                holder.appendChild(el);
+  1841→            });
+  1842→
+  1843→            updateLyricsFontSize();
+  1844→
+  1845→            container.classList.remove('hidden');
+  1846→            setTimeout(() => {
+  1847→                container.style.maxHeight = '350px';
+  1848→                container.style.opacity = '1';
+  1849→                container.style.marginTop = '1rem';
+  1850→            }, 50);
+  1851→        }
+  1852→
+  1853→        function hideLyricsContainer() {
+  1854→            const container = document.getElementById('lyricsContainer');
+  1855→            container.style.maxHeight = '0';
+  1856→            container.style.opacity = '0';
+  1857→            container.style.marginTop = '0';
+  1858→            setTimeout(() => {
+  1859→                container.classList.add('hidden');
+  1860→            }, 500);
+  1861→            activeLyrics = [];
+  1862→        }
+  1863→
+  1864→        function updateLyricsSync(currentTime) {
+  1865→            if (!activeLyrics || activeLyrics.length === 0) return;
+  1866→            
+  1867→            let activeIndex = -1;
+  1868→            for (let i = 0; i < activeLyrics.length; i++) {
+  1869→                if (currentTime >= activeLyrics[i].time) {
+  1870→                    activeIndex = i;
+  1871→                } else {
+  1872→                    break;
+  1873→                }
+  1874→            }
+  1875→
+  1876→            if (activeIndex !== -1) {
+  1877→                const lines = document.querySelectorAll('.lyric-line');
+  1878→                lines.forEach((line, index) => {
+  1879→                    if (index === activeIndex) {
+  1880→                        if (!line.classList.contains('active')) {
+  1881→                            line.classList.add('active');
+  1882→                            const windowEl = document.getElementById('lyricsScrollWindow');
+  1883→                            const offset = line.offsetTop - windowEl.offsetTop - (windowEl.clientHeight / 2) + (line.clientHeight / 2);
+  1884→                            windowEl.scrollTo({ top: offset, behavior: 'smooth' });
+  1885→                        }
+  1886→                    } else {
+  1887→                        line.classList.remove('active');
+  1888→                    }
+  1889→                });
+  1890→                updateLyricsFontSize();
+  1891→            }
+  1892→        }
+  1893→
+  1894→        function parseLrc(text) {
+  1895→            const lines = text.split('\n');
+  1896→            const lyrics = [];
+  1897→            const timeReg = /\[(\d+):(\d+(?:\.\d+)?)\]/;
+  1898→
+  1899→            lines.forEach(line => {
+  1900→                const match = timeReg.exec(line);
+  1901→                if (match) {
+  1902→                    const min = parseInt(match[1]);
+  1903→                    const sec = parseFloat(match[2]);
+  1904→                    const time = min * 60 + sec;
+  1905→                    const textContent = line.replace(timeReg, '').trim();
+  1906→                    if (textContent) {
+  1907→                        lyrics.push({ time, text: textContent });
+  1908→                    }
+  1909→                } else {
+  1910→                    const cleanLine = line.trim();
+  1911→                    if (cleanLine && !cleanLine.startsWith('[')) {
+  1912→                        lyrics.push({ time: lyrics.length * 3.5, text: cleanLine });
+  1913→                    }
+  1914→                }
+  1915→            });
+  1916→
+  1917→            return lyrics.sort((a, b) => a.time - b.time);
+  1918→        }
+  1919→
+  1920→        function startProceduralMusic(trackName) {
+  1921→            synthMockTime = 0;
+  1922→            const chords = [
+  1923→                [261.63, 329.63, 392.00, 493.88],
+  1924→                [349.23, 440.00, 523.25, 587.33],
+  1925→                [293.66, 349.23, 440.00, 523.25],
+  1926→                [392.00, 493.88, 587.33, 698.46]
+  1927→            ];
+  1928→            let chordIdx = 0;
+  1929→
+  1930→            synthPlayInterval = setInterval(() => {
+  1931→                const currentChord = chords[chordIdx];
+  1932→                currentChord.forEach((note, i) => {
+  1933→                    setTimeout(() => {
+  1934→                        if (currentPlayType === "procedural") {
+  1935→                            playChime(note, 'sine', 2.8, 0.08, mainHarpGain);
+  1936→                            createSparkles(window.innerWidth / 2 + (Math.random() * 60 - 30), window.innerHeight / 2, 2, 'rainbow');
+  1937→                        }
+  1938→                    }, i * 180);
+  1939→                });
+  1940→
+  1941→                chordIdx = (chordIdx + 1) % chords.length;
+  1942→                synthMockTime += 2;
+  1943→                updateLyricsSync(synthMockTime);
+  1944→                if (synthMockTime > 120) {
+  1945→                    stopVinylAndReset();
+  1946→                }
+  1947→            }, 2000);
+  1948→        }
+  1949→
+  1950→        document.getElementById('trackListContainer').addEventListener('click', function(e) {
+  1951→            const btn = e.target.closest('.track-btn');
+  1952→            if (!btn) return;
+  1953→            
+  1954→            const trackName = btn.getAttribute('data-name');
+  1955→            const isUploaded = btn.hasAttribute('data-uploaded');
+  1956→            const fileId = btn.getAttribute('data-file-id');
+  1957→            const targetAudioFile = btn.getAttribute('data-file');
+  1958→            const targetLyricsFile = btn.getAttribute('data-lyrics-file');
+  1959→
+  1960→            if (vinylRecord.classList.contains('paused-record') || currentTrackName.innerText !== trackName) {
+  1961→                if (ambientActive) {
+  1962→                    stopAmbientMusic();
+  1963→                }
+  1964→                
+  1965→                if (uploadedAudio) {
+  1966→                    uploadedAudio.pause();
+  1967→                }
+  1968→                if (synthPlayInterval) {
+  1969→                    clearInterval(synthPlayInterval);
+  1970→                }
+  1971→
+  1972→                vinylRecord.classList.remove('paused-record');
+  1973→                vinylOuterGlow.classList.add('playing');
+  1974→                vinylTween.play();
+  1975→                gsap.to(vinylTween, { timeScale: 1, duration: 1.8, ease: "power1.out" });
+  1976→                gsap.to(tonearm, { rotation: 5, duration: 1.2, ease: "power2.out" });
+  1977→                currentTrackName.innerText = trackName;
+  1978→                animateMusicBars(true);
+  1979→
+  1980→                if (isUploaded) {
+  1981→                    const audioSrc = window.uploadedTracks[fileId].audioSrc;
+  1982→                    const lyrics = window.uploadedTracks[fileId].lyrics;
+  1983→                    
+  1984→                    uploadedAudio = new Audio(audioSrc);
+  1985→                    uploadedAudio.addEventListener('timeupdate', () => {
+  1986→                        updateLyricsSync(uploadedAudio.currentTime);
+  1987→                    });
+  1988→                    uploadedAudio.addEventListener('ended', () => {
+  1989→                        stopVinylAndReset();
+  1990→                    });
+  1991→                    uploadedAudio.play();
+  1992→                    currentPlayType = "uploaded";
+  1993→                    showLyricsContainer(lyrics);
+  1994→                } else {
+  1995→                    const safeAudioPath = "./" + targetAudioFile;
+  1996→                    uploadedAudio = new Audio(safeAudioPath);
+  1997→                    uploadedAudio.addEventListener('timeupdate', () => {
+  1998→                        updateLyricsSync(uploadedAudio.currentTime);
+  1999→                    });
+  2000→                    uploadedAudio.addEventListener('ended', () => {
+
+[showing lines 1-2000 of 2306; use offset=2001 with limit to continue reading]

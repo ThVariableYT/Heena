@@ -1,0 +1,602 @@
+     1→            "You listen with your whole heart and make others feel important.",
+     2→            "When things get stressful, your calm energy helps everyone feel safe.",
+     3→            "Your warm laugh always makes people feel happy and relaxed.",
+     4→            "You are a deeply loyal friend, Heena. I can trust you with anything.",
+     5→            "Thank you for being so kind and making the world a sweeter place.",
+     6→            "Your friendship is a safe place full of comfort and happiness."
+     7→        ];
+     8→
+     9→        let audioCtx = null;
+    10→        let mainHarpGain = null;
+    11→        let delayNode = null;
+    12→        let feedbackNode = null;
+    13→
+    14→        function initAudio() {
+    15→            if (audioCtx) return;
+    16→            try {
+    17→                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    18→                mainHarpGain = audioCtx.createGain();
+    19→                mainHarpGain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+    20→                
+    21→                delayNode = audioCtx.createDelay(1.0);
+    22→                delayNode.delayTime.setValueAtTime(0.3, audioCtx.currentTime);
+    23→                
+    24→                feedbackNode = audioCtx.createGain();
+    25→                feedbackNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+    26→                
+    27→                mainHarpGain.connect(audioCtx.destination);
+    28→                mainHarpGain.connect(delayNode);
+    29→                delayNode.connect(feedbackNode);
+    30→                feedbackNode.connect(delayNode);
+    31→                delayNode.connect(audioCtx.destination);
+    32→            } catch (e) {
+    33→            }
+    34→        }
+    35→
+    36→        window.addEventListener('click', () => {
+    37→            initAudio();
+    38→            if (audioCtx && audioCtx.state === 'suspended') {
+    39→                audioCtx.resume();
+    40→            }
+    41→        }, { once: true });
+    42→
+    43→        window.addEventListener('touchstart', () => {
+    44→            initAudio();
+    45→            if (audioCtx && audioCtx.state === 'suspended') {
+    46→                audioCtx.resume();
+    47→            }
+    48→        }, { once: true });
+    49→
+    50→        let vinylOsc = null;
+    51→        let vinylGain = null;
+    52→        let ambientActive = false;
+    53→        let ambientTimer = null;
+    54→        let ambientNodes = [];
+    55→        let uploadedAudio = null;
+    56→        let activeLyrics = [];
+    57→        let synthPlayInterval = null;
+    58→        let currentPlayType = null;
+    59→        let synthMockTime = 0;
+    60→        let lyricsBaseSize = 1.0;
+    61→
+    62→        const defaultLyrics = {
+    63→            "Your Thoughts": [
+    64→                { time: 0, text: "Welcome to Heena's Celebration Theme..." },
+    65→                { time: 3, text: "A melody crafted for a wonderful soul." },
+    66→                { time: 7, text: "You bring warmth to the coldest days..." },
+    67→                { time: 11, text: "And brighten every single path with your light." },
+    68→                { time: 15, text: "We hope this day is as sweet as you are." },
+    69→                { time: 19, text: "Happy Birthday, Heena!" }
+    70→            ],
+    71→            "Saajna": [
+    72→                { time: 0, text: "Thinking of all the times we shared..." },
+    73→                { time: 4, text: "Every laugh, every deep conversation." },
+    74→                { time: 8, text: "Through changing seasons and passing years..." },
+    75→                { time: 12, text: "Your beautiful loyalty has remained our anchor." },
+    76→                { time: 16, text: "Here is to many more precious memories together!" }
+    77→            ],
+    78→            "Perfect": [
+    79→                { time: 0, text: "A bright sky, a gorgeous peaceful dawn..." },
+    80→                { time: 3, text: "Your smile brings the sun when the rain is pouring." },
+    81→                { time: 7, text: "Never change your beautiful patient spirit..." },
+    82→                { time: 11, text: "You are the ultimate safe haven." },
+    83→                { time: 15, text: "Wishing you infinite happiness today and forever!" }
+    84→            ]
+    85→        };
+    86→
+    87→        function renderHardcodedTracklist() {
+    88→            const container = document.getElementById('trackListContainer');
+    89→            container.innerHTML = '';
+    90→            myPlaylist.forEach((track, index) => {
+    91→                const newIndex = index + 1;
+    92→                const indexStr = newIndex < 10 ? '0' + newIndex : newIndex;
+    93→                const btn = document.createElement('button');
+    94→                btn.className = "track-btn w-full p-3 bg-white/60 hover:bg-white/90 border border-white/60 hover:border-amber-200 rounded-xl flex items-center justify-between transition-all duration-300 group shadow-sm hover:shadow-md interactive-scale";
+    95→                btn.setAttribute('data-file', track.audioFile);
+    96→                btn.setAttribute('data-lyrics-file', track.lyricsFile);
+    97→                btn.setAttribute('data-name', track.name);
+    98→                btn.innerHTML = `
+    99→                    <div class="flex items-center gap-3">
+   100→                        <span class="text-[0.65rem] font-serif-elegant text-stone-500 group-hover:text-amber-800">${indexStr}</span>
+   101→                        <span class="text-[0.7rem] font-bold text-stone-800">${track.name}</span>
+   102→                    </div>
+   103→                    <div class="w-6 h-6 rounded-full bg-stone-100 group-hover:bg-amber-100 flex items-center justify-center transition-colors">
+   104→                        <i class="fa-solid fa-play text-[0.55rem] text-stone-400 group-hover:text-amber-600"></i>
+   105→                    </div>
+   106→                `;
+   107→                container.appendChild(btn);
+   108→            });
+   109→        }
+   110→
+   111→        function showToastMessage(text) {
+   112→            const toast = document.getElementById('customToast');
+   113→            const toastText = document.getElementById('toastText');
+   114→            toastText.innerText = text;
+   115→            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+   116→            toast.classList.add('translate-y-0', 'opacity-100');
+   117→            setTimeout(() => {
+   118→                toast.classList.remove('translate-y-0', 'opacity-100');
+   119→                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+   120→            }, 5000);
+   121→        }
+   122→        
+   123→        function playChime(freq = 523.25, type = 'sine', duration = 1.5, volume = 0.2, dest = null) {
+   124→            initAudio();
+   125→            if (!audioCtx) return;
+   126→            if (audioCtx.state === 'suspended') {
+   127→                audioCtx.resume();
+   128→            }
+   129→            const osc = audioCtx.createOscillator();
+   130→            const gainNode = audioCtx.createGain();
+   131→            osc.type = type;
+   132→            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+   133→            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+   134→            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+   135→            osc.connect(gainNode);
+   136→            
+   137→            const targetDest = dest || mainHarpGain || audioCtx.destination;
+   138→            gainNode.connect(targetDest);
+   139→            
+   140→            osc.start();
+   141→            osc.stop(audioCtx.currentTime + duration);
+   142→        }
+   143→
+   144→        function playCelebrationMelody() {
+   145→            initAudio();
+   146→            const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50, 1318.51];
+   147→            notes.forEach((freq, index) => {
+   148→                setTimeout(() => playChime(freq, 'sine', 2.0, 0.12, mainHarpGain), index * 90);
+   149→            });
+   150→        }
+   151→
+   152→        function stopAmbientMusic() {
+   153→            ambientActive = false;
+   154→            document.getElementById('musicToggle').classList.remove('text-rose-500', 'shadow-[0_0_15px_rgba(244,63,94,0.4)]');
+   155→            if (ambientTimer) {
+   156→                clearInterval(ambientTimer);
+   157→                ambientTimer = null;
+   158→            }
+   159→            if (audioCtx) {
+   160→                ambientNodes.forEach(node => {
+   161→                    try {
+   162→                        node.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+   163→                        setTimeout(() => {
+   164→                            try { node.osc.stop(); } catch(e){}
+   165→                        }, 500);
+   166→                    } catch(e){}
+   167→                });
+   168→            }
+   169→            ambientNodes = [];
+   170→        }
+   171→
+   172→        function playAmbientPadNode(freq, delay, duration) {
+   173→            if (!ambientActive || !audioCtx) return;
+   174→            const osc = audioCtx.createOscillator();
+   175→            const gainNode = audioCtx.createGain();
+   176→            osc.type = 'sine';
+   177→            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+   178→            gainNode.gain.setValueAtTime(0, audioCtx.currentTime + delay);
+   179→            gainNode.gain.linearRampToValueAtTime(0.03, audioCtx.currentTime + delay + 1.5);
+   180→            gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime + delay + duration - 1.5);
+   181→            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+   182→            osc.connect(gainNode);
+   183→            gainNode.connect(audioCtx.destination);
+   184→            osc.start(audioCtx.currentTime + delay);
+   185→            osc.stop(audioCtx.currentTime + delay + duration);
+   186→
+   187→            const record = { osc, gain: gainNode };
+   188→            ambientNodes.push(record);
+   189→            setTimeout(() => {
+   190→                ambientNodes = ambientNodes.filter(n => n !== record);
+   191→            }, (delay + duration) * 1000 + 200);
+   192→        }
+   193→
+   194→        function triggerAmbientChord() {
+   195→            const base = 130.81;
+   196→            const chord = [base, base * 1.25, base * 1.5, base * 1.875, base * 2.5];
+   197→            chord.forEach((freq, i) => {
+   198→                playAmbientPadNode(freq, i * 0.15, 6.0);
+   199→            });
+   200→        }
+   201→
+   202→        function startAmbientMusic() {
+   203→            initAudio();
+   204→            if (!audioCtx) return;
+   205→            if (audioCtx.state === 'suspended') {
+   206→                audioCtx.resume();
+   207→            }
+   208→            if (!vinylRecord.classList.contains('paused-record')) {
+   209→                stopVinylAndReset();
+   210→            }
+   211→            ambientActive = true;
+   212→            document.getElementById('musicToggle').classList.add('text-rose-500', 'shadow-[0_0_15px_rgba(244,63,94,0.4)]');
+   213→            triggerAmbientChord();
+   214→            ambientTimer = setInterval(() => {
+   215→                triggerAmbientChord();
+   216→            }, 5500);
+   217→        }
+   218→
+   219→        const canvas = document.getElementById('sparkleCanvas');
+   220→        const ctx = canvas.getContext('2d');
+   221→        let particles = [];
+   222→        let mouseX = 0;
+   223→        let mouseY = 0;
+   224→        let animationFrameId = null;
+   225→
+   226→        function resizeCanvas() {
+   227→            canvas.width = window.innerWidth;
+   228→            canvas.height = window.innerHeight;
+   229→        }
+   230→        window.addEventListener('resize', resizeCanvas);
+   231→        resizeCanvas();
+   232→
+   233→        class Sparkle {
+   234→            constructor(x, y, colorType, customSpeedX = null, customSpeedY = null) {
+   235→                this.x = x;
+   236→                this.y = y;
+   237→                this.size = Math.random() * 3 + 1.2;
+   238→                this.speedX = customSpeedX !== null ? customSpeedX : Math.random() * 3.5 - 1.75;
+   239→                this.speedY = customSpeedY !== null ? customSpeedY : Math.random() * -3.5 - 1.2;
+   240→                
+   241→                const r = Math.floor(Math.random() * 3);
+   242→                if (colorType === 'gold') {
+   243→                    this.color = r === 0 ? 'rgba(251, 191, 36, 0.95)' : r === 1 ? 'rgba(253, 186, 116, 0.9)' : 'rgba(255, 255, 255, 0.98)';
+   244→                } else if (colorType === 'smoke') {
+   245→                    this.color = 'rgba(145, 135, 130, 0.2)';
+   246→                    this.size = Math.random() * 6 + 3;
+   247→                    this.speedX = Math.random() * 0.6 - 0.3;
+   248→                    this.speedY = Math.random() * -0.8 - 0.3;
+   249→                } else {
+   250→                    this.color = r === 0 ? 'rgba(244, 63, 94, 0.9)' : r === 1 ? 'rgba(216, 180, 254, 0.9)' : 'rgba(253, 186, 116, 0.9)';
+   251→                }
+   252→                
+   253→                this.alpha = 1;
+   254→                this.decay = Math.random() * 0.012 + 0.008;
+   255→                this.rotation = Math.random() * Math.PI * 2;
+   256→                this.rotationSpeed = Math.random() * 0.06 - 0.03;
+   257→            }
+   258→            update() {
+   259→                this.x += this.speedX + Math.sin(this.y * 0.008 + this.rotation) * 0.3;
+   260→                this.y += this.speedY;
+   261→                if (this.color !== 'rgba(145, 135, 130, 0.25)') {
+   262→                    this.speedY += 0.015;
+   263→                }
+   264→                this.alpha -= this.decay;
+   265→                this.rotation += this.rotationSpeed;
+   266→            }
+   267→            draw() {
+   268→                ctx.save();
+   269→                ctx.globalAlpha = this.alpha;
+   270→                ctx.translate(this.x, this.y);
+   271→                ctx.rotate(this.rotation);
+   272→                ctx.fillStyle = this.color;
+   273→                
+   274→                if (Math.random() > 0.5) {
+   275→                    ctx.beginPath();
+   276→                    for (let i = 0; i < 4; i++) {
+   277→                        ctx.lineTo(0, -this.size * 1.1);
+   278→                        ctx.lineTo(this.size * 0.25, -this.size * 0.25);
+   279→                        ctx.rotate(Math.PI / 2);
+   280→                    }
+   281→                    ctx.closePath();
+   282→                    ctx.fill();
+   283→                } else {
+   284→                    ctx.beginPath();
+   285→                    ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+   286→                    ctx.fill();
+   287→                }
+   288→                ctx.restore();
+   289→            }
+   290→        }
+   291→
+   292→        function createSparkles(x, y, count = 10, colorType = 'rainbow', customSX = null, customSY = null) {
+   293→            for (let i = 0; i < count; i++) {
+   294→                particles.push(new Sparkle(x, y, colorType, customSX, customSY));
+   295→            }
+   296→            if (!animationFrameId) {
+   297→                animate();
+   298→            }
+   299→        }
+   300→
+   301→        function animate() {
+   302→            if (particles.length === 0) {
+   303→                ctx.clearRect(0, 0, canvas.width, canvas.height);
+   304→                animationFrameId = null;
+   305→                return;
+   306→            }
+   307→            ctx.clearRect(0, 0, canvas.width, canvas.height);
+   308→            particles = particles.filter(p => p.alpha > 0);
+   309→            particles.forEach(p => {
+   310→                p.update();
+   311→                p.draw();
+   312→            });
+   313→            animationFrameId = requestAnimationFrame(animate);
+   314→        }
+   315→
+   316→        window.addEventListener('pointermove', (e) => {
+   317→            mouseX = e.clientX;
+   318→            mouseY = e.clientY;
+   319→            if (Math.random() > 0.88) {
+   320→                createSparkles(mouseX, mouseY, 1, 'gold', Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1);
+   321→            }
+   322→        });
+   323→
+   324→        window.addEventListener('click', (e) => {
+   325→            if (e.target.closest('button') || e.target.closest('.candle') || e.target.closest('.parallax-card-body') || e.target.closest('#loveJar') || e.target.closest('#harpPhysicsContainer') || e.target.closest('#vinylPlayer') || e.target.closest('#cakeSection')) return;
+   326→            createSparkles(e.clientX, e.clientY, 8, 'gold');
+   327→            playChime(550 + Math.random() * 550, 'sine', 0.8, 0.08);
+   328→        });
+   329→
+   330→        let introCanvas = document.getElementById('codeStreamCanvas');
+   331→        let introCtx = introCanvas ? introCanvas.getContext('2d') : null;
+   332→        let streamTokens = [];
+   333→        let warpActive = false;
+   334→        let warpSpeed = 1;
+   335→
+   336→        const codeElementsPool = [
+   337→            "heena", "quiet_strength", "safe_haven", "warm_heart", "loyalty", "friendship.pkg", "celebrate()", "index.js", "style.css", "🌸", "🤍", "✨", ";", "const", "true", "npm_run", "git_push"
+   338→        ];
+   339→
+   340→        function resizeIntroCanvas() {
+   341→            if (introCanvas) {
+   342→                introCanvas.width = window.innerWidth;
+   343→                introCanvas.height = window.innerHeight;
+   344→            }
+   345→        }
+   346→        window.addEventListener('resize', resizeIntroCanvas);
+   347→        resizeIntroCanvas();
+   348→
+   349→        class CodeStreamToken {
+   350→            constructor() {
+   351→                this.reset();
+   352→            }
+   353→            reset() {
+   354→                this.x = Math.random() * (introCanvas ? introCanvas.width : 500);
+   355→                this.y = Math.random() * -(introCanvas ? introCanvas.height : 500);
+   356→                this.text = codeElementsPool[Math.floor(Math.random() * codeElementsPool.length)];
+   357→                this.speed = Math.random() * 1.0 + 0.5;
+   358→                this.fontSize = Math.random() * 8 + 10;
+   359→                this.color = Math.random() > 0.5 ? 'rgba(236, 72, 153, 0.15)' : 'rgba(245, 158, 11, 0.15)';
+   360→            }
+   361→            update() {
+   362→                if (warpActive) {
+   363→                    this.y += this.speed * warpSpeed;
+   364→                } else {
+   365→                    this.y += this.speed;
+   366→                }
+   367→                if (introCanvas && this.y > introCanvas.height) {
+   368→                    this.reset();
+   369→                }
+   370→            }
+   371→            draw() {
+   372→                if (!introCtx) return;
+   373→                introCtx.font = `${this.fontSize}px 'Fira Code', monospace`;
+   374→                introCtx.fillStyle = this.color;
+   375→                introCtx.fillText(this.text, this.x, this.y);
+   376→            }
+   377→        }
+   378→
+   379→        for (let i = 0; i < 60; i++) {
+   380→            streamTokens.push(new CodeStreamToken());
+   381→        }
+   382→
+   383→        function animateIntroCanvas() {
+   384→            if (!introCtx) return;
+   385→            introCtx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+   386→            streamTokens.forEach(t => {
+   387→                t.update();
+   388→                t.draw();
+   389→            });
+   390→            if (document.getElementById('introScreen').style.display !== 'none') {
+   391→                requestAnimationFrame(animateIntroCanvas);
+   392→            }
+   393→        }
+   394→        animateIntroCanvas();
+   395→
+   396→        function addLogLine(text, delay) {
+   397→            const container = document.getElementById('compilerLogContainer');
+   398→            setTimeout(() => {
+   399→                const line = document.createElement('div');
+   400→                line.className = "text-emerald-400";
+   401→                line.innerText = text;
+   402→                container.appendChild(line);
+   403→                container.scrollTop = container.scrollHeight;
+   404→                playChime(320 + Math.random() * 450, 'triangle', 0.2, 0.04);
+   405→            }, delay);
+   406→        }
+   407→
+   408→        document.querySelectorAll('.ide-tab-btn').forEach(btn => {
+   409→            btn.addEventListener('click', function() {
+   410→                document.querySelectorAll('.ide-tab-btn').forEach(b => b.classList.remove('active'));
+   411→                this.classList.add('active');
+   412→                
+   413→                const target = this.getAttribute('data-target');
+   414→                document.querySelectorAll('.tab-content').forEach(pane => pane.classList.add('hidden'));
+   415→                document.getElementById(target).classList.remove('hidden');
+   416→                
+   417→                playChime(400 + Math.random() * 200, 'sine', 0.12, 0.06);
+   418→            });
+   419→        });
+   420→
+   421→        document.getElementById('openGiftBtn').addEventListener('click', () => {
+   422→            const btn = document.getElementById('openGiftBtn');
+   423→            btn.disabled = true;
+   424→            document.getElementById('compileBtnText').innerText = "INJECTING PAYLOAD...";
+   425→
+   426→            initAudio();
+   427→
+   428→            const bar = document.getElementById('compileProgressBar');
+   429→            gsap.to(bar, {
+   430→                width: "100%",
+   431→                duration: 2.0,
+   432→                ease: "power1.inOut"
+   433→            });
+   434→
+   435→            addLogLine("> Initiating sequence compiler...", 100);
+   436→            addLogLine("> Resolving identity: Heena", 400);
+   437→            addLogLine("> Mounting quiet_strength, safe_haven modules...", 800);
+   438→            addLogLine("> Success: Compiled friendship values to infinite.", 1200);
+   439→            addLogLine("> Executing visual celebration process...", 1600);
+   440→
+   441→            setTimeout(() => {
+   442→                warpActive = true;
+   443→                
+   444→                const flash = document.getElementById('transitionFlash');
+   445→                flash.classList.remove('pointer-events-none');
+   446→                flash.classList.add('opacity-100');
+   447→
+   448→                gsap.to(window, {
+   449→                    duration: 1.2,
+   450→                    onUpdate: () => {
+   451→                        warpSpeed += 2.0;
+   452→                    },
+   453→                    ease: 'power3.in'
+   454→                });
+   455→
+   456→                setTimeout(() => {
+   457→                    const main = document.getElementById('mainContent');
+   458→                    main.classList.remove('hidden');
+   459→                    document.getElementById('musicToggle').classList.remove('hidden');
+   460→
+   461→                    const transitionTimeline = gsap.timeline({
+   462→                        onComplete: () => {
+   463→                            document.getElementById('introScreen').style.display = 'none';
+   464→                            flash.classList.add('pointer-events-none');
+   465→                            flash.classList.remove('opacity-100');
+   466→                            ScrollTrigger.refresh();
+   467→                            updateCandleRects();
+   468→                        }
+   469→                    });
+   470→
+   471→                    transitionTimeline.to('#introScreen', {
+   472→                        opacity: 0,
+   473→                        duration: 0.7,
+   474→                        ease: 'power2.inOut'
+   475→                    })
+   476→                    .fromTo('#mainContent',
+   477→                        { opacity: 0 },
+   478→                        { opacity: 1, duration: 0.9, ease: 'power2.out' },
+   479→                        '-=0.7'
+   480→                    )
+   481→                    .fromTo('#mainHeader', 
+   482→                        { opacity: 0, y: -30 },
+   483→                        { opacity: 1, y: 0, duration: 1.0, ease: 'power4.out' },
+   484→                        '-=0.7'
+   485→                    )
+   486→                    .fromTo('#mainLeftCol',
+   487→                        { opacity: 0, x: -40 },
+   488→                        { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' },
+   489→                        '-=0.9'
+   490→                    )
+   491→                    .fromTo('#mainRightCol',
+   492→                        { opacity: 0, x: 40 },
+   493→                        { opacity: 1, x: 0, duration: 1.0, ease: 'power3.out' },
+   494→                        '-=1.0'
+   495→                    );
+   496→
+   497→                    setTimeout(() => {
+   498→                        playCelebrationMelody();
+   499→                        createSparkles(window.innerWidth / 2, window.innerHeight / 2, 80, 'rainbow');
+   500→                    }, 150);
+   501→
+   502→                }, 900);
+   503→
+   504→            }, 2100);
+   505→        });
+   506→
+   507→        document.getElementById('giftBoxContainer').addEventListener('click', (e) => {
+   508→            createSparkles(e.clientX, e.clientY, 30, 'gold');
+   509→            playChime(659.25, 'triangle', 0.8, 0.2, mainHarpGain);
+   510→        });
+   511→
+   512→        const interactives = [
+   513→            { id: 'tokenFriend', log: '> Query: heena -> Result: [Spectacular Friend, Warm Heart]' },
+   514→            { id: 'tokenStrength', log: '> Load: quiet_strength -> Resilience state: ACTIVE' },
+   515→            { id: 'tokenHaven', log: '> Connect: safe_haven -> Secure listening buffer initialized.' },
+   516→            { id: 'tokenGrace', log: '> Render style: graceful_elegance -> Render status: Perfect.' },
+   517→            { id: 'tokenTrigger', log: '> Execute: triggerCelebration() -> High happiness factor detected.' },
+   518→            { id: 'tokenEmpathy', log: '> Empathy variable: infinite -> Status: Confirmed.' },
+   519→            { id: 'tokenPatience', log: '> Patience status: unlimited -> Thread pool capacity optimized.' },
+   520→            { id: 'tokenWarmth', log: '> Hex definition: #ff4b72 -> Thermal output: Infinite warmth.' },
+   521→            { id: 'tokenHeart', log: '> Core classification: "pure_gold" -> Material density verified.' }
+   522→        ];
+   523→
+   524→        interactives.forEach(item => {
+   525→            const el = document.getElementById(item.id);
+   526→            if (el) {
+   527→                el.addEventListener('click', (e) => {
+   528→                    createSparkles(e.clientX, e.clientY, 12, 'rainbow');
+   529→                    playChime(380 + Math.random() * 450, 'sine', 0.8, 0.12, mainHarpGain);
+   530→                    addLogLine(item.log, 40);
+   531→                });
+   532→            }
+   533→        });
+   534→
+   535→        const cardTiltContainer = document.getElementById('ideContainer');
+   536→        if (cardTiltContainer) {
+   537→            let ideRect = null;
+   538→            function updateIdeRect() {
+   539→                ideRect = cardTiltContainer.getBoundingClientRect();
+   540→            }
+   541→            window.addEventListener('resize', updateIdeRect);
+   542→            cardTiltContainer.addEventListener('pointerenter', updateIdeRect);
+   543→            cardTiltContainer.addEventListener('touchstart', updateIdeRect);
+   544→
+   545→            window.addEventListener('pointermove', (e) => {
+   546→                if (document.getElementById('introScreen').style.display === 'none') return;
+   547→                if (!ideRect) updateIdeRect();
+   548→                const x = e.clientX - ideRect.left - ideRect.width / 2;
+   549→                const y = e.clientY - ideRect.top - ideRect.height / 2;
+   550→                const factorX = x / ideRect.width;
+   551→                const factorY = y / ideRect.height;
+   552→                gsap.to(cardTiltContainer, {
+   553→                    rotateY: factorX * 6,
+   554→                    rotateX: -factorY * 6,
+   555→                    duration: 0.5,
+   556→                    ease: 'power2.out',
+   557→                    transformPerspective: 1000
+   558→                });
+   559→            });
+   560→        }
+   561→
+   562→        let blownCandles = 0;
+   563→        let candleRects = [];
+   564→
+   565→        function updateCandleRects() {
+   566→            candleRects = [];
+   567→            document.querySelectorAll('.candle').forEach(candle => {
+   568→                const flame = candle.querySelector('.flame');
+   569→                if (flame) {
+   570→                    const rect = flame.getBoundingClientRect();
+   571→                    candleRects.push({
+   572→                        element: candle,
+   573→                        flame: flame,
+   574→                        left: rect.left,
+   575→                        right: rect.right,
+   576→                        top: rect.top,
+   577→                        bottom: rect.bottom,
+   578→                        width: rect.width,
+   579→                        height: rect.height
+   580→                    });
+   581→                }
+   582→            });
+   583→        }
+   584→        window.addEventListener('resize', updateCandleRects);
+   585→        
+   586→        function triggerWishMessage() {
+   587→            setTimeout(() => {
+   588→                playCelebrationMelody();
+   589→                document.getElementById('wishMessage').classList.remove('hidden');
+   590→                for (let i = 0; i < 4; i++) {
+   591→                    setTimeout(() => {
+   592→                        createSparkles(window.innerWidth / 2, window.innerHeight / 3, 35, 'rainbow');
+   593→                    }, i * 200);
+   594→                }
+   595→            }, 300);
+   596→        }
+   597→
+   598→        const checkBlowInteractions = (clientX, clientY) => {
+   599→            const padding = 20;
+   600→            if (candleRects.length === 0) updateCandleRects();
+   601→            candleRects.forEach(c => {
+   602→

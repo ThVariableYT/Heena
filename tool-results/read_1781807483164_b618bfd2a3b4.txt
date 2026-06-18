@@ -1,0 +1,502 @@
+   400→        <div class="ambient-glow-circle w-96 h-96 top-1/4 left-1/4"></div>
+   401→        <div class="ambient-glow-circle w-80 h-80 bottom-1/4 right-1/4" style="animation-delay: -5s;"></div>
+   402→    </div>
+   403→
+   404→    <canvas id="sparkleCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
+   405→    <div id="transitionFlash" class="fixed inset-0 bg-white opacity-0 pointer-events-none z-50 transition-opacity duration-300"></div>
+   406→
+   407→    <div id="customToast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 glass-premium px-6 py-4 rounded-[2rem] text-xs font-bold text-stone-800 text-center shadow-2xl transition-all duration-500 translate-y-20 opacity-0 pointer-events-none max-w-[85vw] border-amber-200/40">
+   408→        <span id="toastText"></span>
+   409→    </div>
+   410→
+   411→    <div id="introScreen" class="fixed inset-0 bg-[#060408] z-40 flex flex-col items-center justify-center p-4 overflow-y-auto">
+   412→        <canvas id="codeStreamCanvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-20"></canvas>
+   413→        
+   414→        <div class="w-full max-w-4xl px-4 py-8 flex flex-col items-center relative z-10">
+   415→            <div class="relative w-36 h-36 mb-6 flex items-center justify-center cursor-pointer group interactive-scale" id="giftBoxContainer">
+   416→                <div class="absolute inset-0 rounded-full border border-pink-500/20 animate-[spin_20s_linear_infinite] flex items-center justify-center">
+   417→                    <div class="text-[0.5rem] font-mono text-pink-500/30 tracking-[0.25em] font-extrabold uppercase select-none">&lt;HEENA_INIT&gt; &lt;/HEENA_INIT&gt;</div>
+   418→                </div>
+   419→                <div class="absolute inset-2 rounded-full border border-dashed border-amber-400/30 animate-[spin_10s_linear_infinite_reverse]"></div>
+   420→                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-[#140e1a] via-[#20152b] to-[#0f0714] border-2 border-amber-400/40 flex items-center justify-center shadow-[0_0_30px_rgba(251,191,36,0.15)] transition-transform duration-500 group-hover:scale-105 group-hover:border-amber-300 relative overflow-hidden">
+   421→                    <div class="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+   422→                    <span class="font-serif-elegant text-5xl text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-200 to-amber-500 font-normal select-none filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">H</span>
+   423→                </div>
+   424→                <div class="absolute top-2 right-2 w-3 h-3 bg-emerald-500 rounded-full animate-pulse border-2 border-[#060408] shadow-[0_0_8px_#10b981]"></div>
+   425→            </div>
+   426→
+   427→            <div class="glass-premium-dark p-4 md:p-8 rounded-[2rem] w-full shadow-3xl relative overflow-hidden border border-white/5 animate-float" id="ideContainer">
+   428→                <div class="absolute top-0 left-0 w-full h-[2px] shimmer bg-gradient-to-r from-pink-500 via-amber-400 to-rose-500"></div>
+   429→                
+   430→                <div class="flex items-center justify-between pb-4 border-b border-white/5 mb-4">
+   431→                    <div class="flex gap-1.5 items-center flex-shrink-0">
+   432→                        <span class="w-2 h-2 rounded-full bg-rose-500/90"></span>
+   433→                        <span class="w-2 h-2 rounded-full bg-amber-500/90"></span>
+   434→                        <span class="w-2 h-2 rounded-full bg-emerald-500/90"></span>
+   435→                    </div>
+   436→                    <div class="flex gap-1 overflow-x-auto no-scrollbar flex-1 justify-end sm:justify-start ml-3">
+   437→                        <button class="ide-tab-btn active px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="friendshipJs">friendship.js</button>
+   438→                        <button class="ide-tab-btn px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="coreJson">core.json</button>
+   439→                        <button class="ide-tab-btn px-2.5 py-1.5 rounded-t-md font-mono text-[0.65rem] md:text-xs text-stone-400 hover:text-white whitespace-nowrap" data-target="styleCss">style.css</button>
+   440→                    </div>
+   441→                </div>
+   442→
+   443→                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+   444→                    <div class="lg:col-span-7 bg-[#09060b] p-4 md:p-6 rounded-xl border border-white/5 font-mono text-[0.65rem] md:text-[0.75rem] text-stone-300 space-y-4 shadow-inner relative overflow-hidden min-h-[240px]" id="editorPane">
+   445→                        
+   446→                        <div id="friendshipJs" class="tab-content space-y-1.5 leading-relaxed">
+   447→                            <div>
+   448→                                <span class="text-pink-400">const</span> 
+   449→                                <span id="tokenFriend" class="code-interactive-token text-amber-300 font-semibold">heena</span> 
+   450→                                <span class="text-pink-400">=</span> 
+   451→                                <span class="text-pink-400">new</span> 
+   452→                                <span class="text-sky-300">SpecialFriend</span>(<span class="text-emerald-400">"Warm Heart"</span>);
+   453→                            </div>
+   454→                            
+   455→                            <div class="pl-4">
+   456→                                <span class="text-amber-300">heena</span>.<span class="text-sky-300">coreAttributes</span> <span class="text-pink-400">=</span> [
+   457→                            </div>
+   458→                            <div class="pl-8">
+   459→                                <span id="tokenStrength" class="code-interactive-token text-emerald-400">"quiet_strength"</span>, 
+   460→                                <span id="tokenHaven" class="code-interactive-token text-purple-400">"safe_haven"</span>, 
+   461→                                <span id="tokenGrace" class="code-interactive-token text-rose-400">"graceful_elegance"</span>
+   462→                            </div>
+   463→                            <div class="pl-4">];</div>
+   464→
+   465→                            <div class="pt-1">
+   466→                                <span class="text-pink-400">if</span> (<span class="text-amber-300">heena</span>.<span class="text-sky-300">isTrulyWonderful</span>()) {
+   467→                            </div>
+   468→                            <div class="pl-4">
+   469→                                <span class="text-sky-300">console</span>.<span class="text-purple-300">log</span>(<span class="text-emerald-400">"Compiling pure happiness..."</span>);
+   470→                            </div>
+   471→                            <div class="pl-4">
+   472→                                <span id="tokenTrigger" class="code-interactive-token text-amber-300 hover:text-amber-200 underline decoration-dotted font-semibold">triggerCelebration</span>();
+   473→                            </div>
+   474→                            <div>}</div>
+   475→                        </div>
+   476→
+   477→                        <div id="coreJson" class="tab-content hidden space-y-1.5 leading-relaxed text-indigo-200">
+   478→                            <div>{</div>
+   479→                            <div class="pl-4">
+   480→                                <span class="text-rose-400">"name"</span>: <span class="text-emerald-400">"Heena"</span>,
+   481→                            </div>
+   482→                            <div class="pl-4">
+   483→                                <span class="text-rose-400">"character"</span>: <span class="text-emerald-400">"spectacular_friend"</span>,
+   484→                            </div>
+   485→                            <div class="pl-4">
+   486→                                <span class="text-rose-400">"empathyLevel"</span>: <span id="tokenEmpathy" class="code-interactive-token text-amber-300 font-semibold">"infinite"</span>,
+   487→                            </div>
+   488→                            <div class="pl-4">
+   489→                                <span class="text-rose-400">"chocolatePreference"</span>: <span class="text-emerald-400">"hazelnut_truffle"</span>,
+   490→                            </div>
+   491→                            <div class="pl-4">
+   492→                                <span class="text-rose-400">"patienceStatus"</span>: <span id="tokenPatience" class="code-interactive-token text-amber-300 font-semibold">"unlimited"</span>
+   493→                            </div>
+   494→                            <div>}</div>
+   495→                        </div>
+   496→
+   497→                        <div id="styleCss" class="tab-content hidden space-y-1.5 leading-relaxed text-stone-400">
+   498→                            <div>
+   499→                                <span class="text-purple-300">:root</span> {
+   500→                            </div>
+   501→                            <div class="pl-4">
+   502→                                <span class="text-sky-300">--warmth</span>: <span id="tokenWarmth" class="code-interactive-token text-emerald-400 font-semibold">#ff4b72</span>;
+   503→                            </div>
+   504→                            <div class="pl-4">
+   505→                                <span class="text-sky-300">--calmVibe</span>: <span class="text-emerald-400">#ffccd5</span>;
+   506→                            </div>
+   507→                            <div class="pl-4">
+   508→                                <span class="text-sky-300">--heartStatus</span>: <span id="tokenHeart" class="code-interactive-token text-amber-300 font-semibold">"pure_gold"</span>;
+   509→                            </div>
+   510→                            <div>}</div>
+   511→                        </div>
+   512→
+   513→                    </div>
+   514→
+   515→                    <div class="lg:col-span-5 flex flex-col justify-between h-full space-y-4 text-left">
+   516→                        <div>
+   517→                            <span class="text-[0.6rem] text-pink-400 font-mono uppercase tracking-[0.2em] font-extrabold">Dynamic Heartbeat Engine</span>
+   518→                            <h1 class="text-3xl md:text-4xl font-serif-elegant font-semibold text-white tracking-tight mt-1 mb-1.5 leading-tight">Ready to Run</h1>
+   519→                            <p class="text-stone-400 text-xs leading-relaxed font-sans">A customized interactive experience engineered to unlock a dedicated collection of shared chords, memories, and warm appreciation.</p>
+   520→                        </div>
+   521→
+   522→                        <div class="space-y-1.5">
+   523→                            <span class="text-[0.55rem] font-mono uppercase tracking-wider text-stone-500">System Logs</span>
+   524→                            <div class="bg-[#09060b] border border-white/5 p-3 rounded-lg font-mono text-[0.65rem] space-y-0.5 text-stone-400 overflow-hidden h-24 flex flex-col justify-end shadow-inner" id="compilerLogContainer">
+   525→                                <div class="text-stone-600">&gt; Environment: online</div>
+   526→                                <div class="text-stone-600">&gt; Awaiting execution command...</div>
+   527→                            </div>
+   528→                        </div>
+   529→
+   530→                        <div class="space-y-3 pt-1">
+   531→                            <div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+   532→                                <div id="compileProgressBar" class="bg-gradient-to-r from-pink-500 via-amber-400 to-rose-500 h-full w-0 transition-all duration-300"></div>
+   533→                            </div>
+   534→                            
+   535→                            <button id="openGiftBtn" class="hacker-payload-btn w-full text-white tracking-[0.12em] text-[0.8rem] uppercase py-5 px-6 rounded-xl flex flex-col items-center justify-center gap-1 font-bold transition-all duration-300">
+   536→                                <div class="hacker-corner corner-tl"></div>
+   537→                                <div class="hacker-corner corner-tr"></div>
+   538→                                <div class="hacker-corner corner-bl"></div>
+   539→                                <div class="hacker-corner corner-br"></div>
+   540→                                
+   541→                                <div class="flex items-center gap-2.5">
+   542→                                    <span class="text-rose-400 font-extrabold animate-pulse">&gt;</span>
+   543→                                    <span id="compileBtnText" class="tracking-[0.15em]">RUN PAYLOAD: INJECT_JOY.SH</span>
+   544→                                    <i class="fa-solid fa-terminal text-rose-400 animate-pulse text-xs"></i>
+   545→                                </div>
+   546→                                <div class="flex items-center gap-1.5 text-[0.55rem] text-stone-500 tracking-[0.08em] font-normal uppercase select-none">
+   547→                                    <span>Target: Heena_Bday</span>
+   548→                                    <span class="text-rose-500/30">•</span>
+   549→                                    <span>Payload: Active</span>
+   550→                                </div>
+   551→                            </button>
+   552→                        </div>
+   553→                    </div>
+   554→                </div>
+   555→            </div>
+   556→        </div>
+   557→    </div>
+   558→
+   559→    <div id="mainContent" class="hidden min-h-screen pb-20 max-w-6xl mx-auto relative z-10 px-4 sm:px-8">
+   560→
+   561→        <header class="relative pt-12 pb-10 text-center select-none animate-float" id="mainHeader">
+   562→            <div class="absolute top-2 left-4 text-rose-300/60 text-base"><i class="fa-solid fa-star"></i></div>
+   563→            <div class="absolute top-12 right-4 text-amber-300/60 text-lg"><i class="fa-solid fa-sparkles animate-pulse"></i></div>
+   564→            
+   565→            <p class="text-[0.6rem] tracking-[0.4em] uppercase text-rose-500 font-extrabold mb-0.5">Celestial Tribute</p>
+   566→            <h1 class="text-5xl md:text-7xl font-serif-elegant text-transparent bg-clip-text bg-gradient-to-r from-stone-900 via-rose-800 to-amber-700 leading-none py-3">Heena</h1>
+   567→            <div class="editorial-line w-36 mx-auto my-3"></div>
+   568→            <p class="text-[0.7rem] text-stone-500 italic tracking-wider max-w-md mx-auto leading-relaxed px-4">An interactive, luminous archive dedicated to a soul of pure warmth, grace, and timeless friendship.</p>
+   569→        </header>
+   570→
+   571→        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+   572→            <div class="lg:col-span-7 space-y-8" id="mainLeftCol">
+   573→                <section class="glass-premium p-6 sm:p-8 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing" id="cakeSection">
+   574→                    <div class="absolute -top-16 -left-16 w-32 h-32 bg-amber-100/30 rounded-full filter blur-3xl"></div>
+   575→                    <h3 class="font-serif-elegant text-xl md:text-2xl text-stone-900 mb-0.5 tracking-wider font-semibold">Hazelnut Truffle Patisserie</h3>
+   576→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-8">Swipe or tap to blow out the flames</p>
+   577→                    
+   578→                    <div class="flex justify-center items-end h-32 relative mb-2">
+   579→                        <div class="relative w-56 h-24 flex flex-col items-center justify-end">
+   580→                            
+   581→                            <div class="absolute bottom-12 flex gap-8 z-30 items-end">
+   582→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="1">
+   583→                                    <div class="flame"></div>
+   584→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   585→                                    <div class="body w-2 h-7 bg-gradient-to-r from-amber-100 to-amber-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   586→                                </div>
+   587→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="2">
+   588→                                    <div class="flame" style="animation-delay: 0.15s;"></div>
+   589→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   590→                                    <div class="body w-2 h-7 bg-gradient-to-r from-rose-100 to-rose-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   591→                                </div>
+   592→                                <div class="candle flex flex-col items-center cursor-pointer" data-id="3">
+   593→                                    <div class="flame" style="animation-delay: 0.3s;"></div>
+   594→                                    <div class="wick w-[1px] h-1.5 bg-stone-800"></div>
+   595→                                    <div class="body w-2 h-7 bg-gradient-to-r from-amber-100 to-amber-300 border-l border-white/50 rounded-sm shadow-sm"></div>
+   596→                                </div>
+   597→                            </div>
+   598→
+   599→                            <div class="w-44 h-8 bg-gradient-to-b from-[#25130b] to-[#160b06] border-t border-amber-800/30 rounded-t-lg relative shadow-xl flex items-center justify-center z-20">
+   600→                                <div class="absolute -top-1 left-0 right-0 h-1 bg-gradient-to-b from-[#dfba9b] to-transparent opacity-50 rounded-t-lg pointer-events-none"></div>
+   601→                                <div class="absolute top-0.5 flex gap-1 justify-center w-full scale-75 opacity-80">
+   602→                                    <span class="text-[0.4rem]">🌰</span>
+   603→                                    <span class="text-[0.4rem]">✨</span>
+   604→                                    <span class="text-[0.4rem]">🌰</span>
+   605→                                    <span class="text-[0.4rem]">✨</span>
+   606→                                    <span class="text-[0.4rem]">🌰</span>
+   607→                                </div>
+   608→                            </div>
+   609→
+   610→                            <div class="w-48 h-6 bg-gradient-to-b from-[#341d14] to-[#1d0f0a] rounded-t-md relative shadow-md z-10">
+   611→                                <div class="absolute top-0.5 left-4 w-1 h-3 bg-[#d4af37]/70 rounded-b-full"></div>
+   612→                                <div class="absolute top-0.5 left-12 w-0.5 h-2 bg-[#d4af37]/70 rounded-b-full"></div>
+   613→                                <div class="absolute top-0.5 left-24 w-1 h-4 bg-[#d4af37]/70 rounded-b-full"></div>
+   614→                                <div class="absolute top-0.5 left-36 w-1 h-2 bg-[#d4af37]/70 rounded-b-full"></div>
+   615→                            </div>
+   616→
+   617→                            <div class="w-52 h-2 bg-stone-300/40 rounded-full blur-[1px] absolute -bottom-0.5"></div>
+   618→                        </div>
+   619→                    </div>
+   620→
+   621→                    <div id="wishMessage" class="hidden mt-6 p-5 bg-gradient-to-br from-white/95 to-white/70 border border-rose-100 rounded-[1.5rem] text-xs md:text-sm text-stone-700 leading-relaxed font-serif-elegant italic shadow-lg transition-all duration-1000">
+   622→                        “I hope life brings you quiet joy, deep peace, and wonderful moments, just like the happiness you always give to everyone around you, Heena. You deserve the absolute best.” ✨
+   623→                    </div>
+   624→                </section>
+   625→
+   626→                <section class="space-y-5">
+   627→                    <div class="px-2 text-center">
+   628→                        <h3 class="font-serif-elegant text-2xl md:text-3xl text-stone-900 tracking-widest font-semibold">The Memories Archipelago</h3>
+   629→                        <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mt-1">Scroll to float the crystals • Tap to reveal</p>
+   630→                    </div>
+   631→
+   632→                    <div class="parallax-deck-container py-4" id="deckContainer">
+   633→                        
+   634→                        <div class="parallax-node justify-center sm:justify-start" data-speed="20" data-rot="-3">
+   635→                            <div class="parallax-card-body perspective group">
+   636→                                <div class="glow-aura"></div>
+   637→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   638→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#ffeedd]/70 to-[#ffdaeb]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(253,164,186,0.15)]">
+   639→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(253,164,186,0.08)] transition-all group-hover:scale-[1.01] duration-300">🌸</div>
+   640→                                        <div class="text-center py-1">
+   641→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Quiet Strength</p>
+   642→                                            <p class="text-[0.55rem] text-rose-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   643→                                        </div>
+   644→                                    </div>
+   645→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fff5f2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   646→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Quiet Strength</p>
+   647→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">You are always calm and polite. Even though in the beginning I assumed that you were rude, I am glad that I was proved wrong.</p>
+   648→                                    </div>
+   649→                                </div>
+   650→                            </div>
+   651→                        </div>
+   652→
+   653→                        <div class="parallax-node justify-center sm:justify-end" data-speed="10" data-rot="2">
+   654→                            <div class="parallax-card-body perspective group">
+   655→                                <div class="glow-aura"></div>
+   656→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   657→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#e8f0fe]/70 to-[#fdf4e5]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(251,191,36,0.12)]">
+   658→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(251,191,36,0.06)] transition-all group-hover:scale-[1.01] duration-300">🤍</div>
+   659→                                        <div class="text-center py-1">
+   660→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Safe Haven</p>
+   661→                                            <p class="text-[0.55rem] text-amber-600 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   662→                                        </div>
+   663→                                    </div>
+   664→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fffbf2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   665→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Safe Haven</p>
+   666→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">Whenever I needed to complain about small things, you always listened. You were so patient and kind, and you always made me feel safe.</p>
+   667→                                    </div>
+   668→                                </div>
+   669→                            </div>
+   670→                        </div>
+   671→
+   672→                        <div class="parallax-node justify-center sm:justify-start" data-speed="15" data-rot="-2">
+   673→                            <div class="parallax-card-body perspective group">
+   674→                                <div class="glow-aura"></div>
+   675→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   676→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#f3e8ff]/70 to-[#ffe5ec]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(168,85,247,0.12)]">
+   677→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(168,85,247,0.06)] transition-all group-hover:scale-[1.01] duration-300">🍂</div>
+   678→                                        <div class="text-center py-1">
+   679→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Always There</p>
+   680→                                            <p class="text-[0.55rem] text-purple-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   681→                                        </div>
+   682→                                    </div>
+   683→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#fff5f8] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   684→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Always There</p>
+   685→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">No matter what happens, you are always a true and loyal friend. Knowing you are with me makes me very happy.</p>
+   686→                                    </div>
+   687→                                </div>
+   688→                            </div>
+   689→                        </div>
+   690→
+   691→                        <div class="parallax-node justify-center sm:justify-end" data-speed="8" data-rot="3">
+   692→                            <div class="parallax-card-body perspective group">
+   693→                                <div class="glow-aura"></div>
+   694→                                <div class="card-inner preserve-3d w-full h-full relative duration-700">
+   695→                                    <div class="absolute inset-0 bg-gradient-to-b from-[#e0f2fe]/70 to-[#fae8ff]/85 p-5 rounded-[2rem] flex flex-col justify-between backface-hidden border border-white/90 shadow-[0_15px_35px_rgba(14,165,233,0.12)]">
+   696→                                        <div class="w-full h-3/5 bg-white/50 backdrop-blur-md rounded-[1.5rem] flex items-center justify-center text-4xl shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),_0_6px_15px_rgba(14,165,233,0.06)] transition-all group-hover:scale-[1.01] duration-300">🪐</div>
+   697→                                        <div class="text-center py-1">
+   698→                                            <p class="font-serif-elegant text-lg text-stone-900 font-bold tracking-wider">Beautiful Grace</p>
+   699→                                            <p class="text-[0.55rem] text-sky-500 uppercase font-bold tracking-wider mt-0.5">Tap to Open</p>
+   700→                                        </div>
+   701→                                    </div>
+   702→                                    <div class="absolute inset-0 bg-gradient-to-br from-white to-[#f5fbf2] p-5 rounded-[2rem] border border-white/90 flex flex-col justify-center items-center rotate-y-180 backface-hidden text-center text-stone-700 shadow-xl">
+   703→                                        <p class="leading-relaxed font-bold font-serif-elegant italic text-stone-800 text-base mb-2">Beautiful Grace</p>
+   704→                                        <p class="leading-relaxed text-[0.7rem] text-stone-600 px-1">You face every problem with so much patience and calm. You are a truly wonderful friend.</p>
+   705→                                    </div>
+   706→                                </div>
+   707→                            </div>
+   708→                        </div>
+   709→                    </div>
+   710→                </section>
+   711→            </div>
+   712→
+   713→            <div class="lg:col-span-5 space-y-8 lg:sticky lg:top-8" id="mainRightCol">
+   714→                <section class="glass-premium p-5 sm:p-6 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   715→                    <div class="absolute -top-16 -right-16 w-28 h-28 bg-amber-100/10 rounded-full filter blur-2xl"></div>
+   716→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Cosmic Sync</h3>
+   717→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">We love the same music!</p>
+   718→
+   719→                    <div class="flex flex-col gap-4 mb-5 transition-all duration-500" id="cosmicPlaySection">
+   720→                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+   721→                            <div class="relative w-24 h-24 flex items-center justify-center group flex-shrink-0 cursor-pointer animate-float" id="vinylPlayer">
+   722→                                <div class="absolute -inset-1 rounded-full bg-transparent vinyl-glow" id="vinylOuterGlow"></div>
+   723→                                <div class="absolute inset-0 rounded-full border-4 border-stone-850 shadow-lg flex items-center justify-center vinyl-metallic" id="vinylRecord">
+   724→                                    <div class="w-16 h-16 rounded-full border border-stone-800/10 opacity-30"></div>
+   725→                                    <div class="w-10 h-10 rounded-full border border-stone-900 opacity-50 animate-pulse"></div>
+   726→                                    <div class="absolute w-7 h-7 rounded-full bg-gradient-to-tr from-amber-200 to-amber-300 border-2 border-stone-950 flex items-center justify-center shadow-inner">
+   727→                                        <div class="w-1 h-1 rounded-full bg-stone-950"></div>
+   728→                                    </div>
+   729→                                </div>
+   730→                                <div class="absolute right-0 top-0 w-8 h-12 origin-top-right transform translate-x-1 -translate-y-1 transition-transform duration-700 ease-out" id="tonearm" style="transform: rotate(-15deg);">
+   731→                                    <svg viewBox="0 0 50 100" class="w-full h-full filter drop-shadow-md">
+   732→                                        <path d="M 40,10 L 15,10 L 15,65 L 12,75" stroke="#dfba9b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+   733→                                        <circle cx="40" cy="10" r="5" fill="#a87f5d"/>
+   734→                                        <rect x="6" y="73" width="10" height="12" rx="1.5" fill="#5c4033"/>
+   735→                                    </svg>
+   736→                                </div>
+   737→                            </div>
+   738→
+   739→                            <div class="flex flex-col items-center sm:items-start space-y-0.5 text-center sm:text-left">
+   740→                                <span id="currentTrackName" class="font-serif-elegant text-xs font-semibold text-stone-800">Tap to play a song</span>
+   741→                                <span class="text-[0.55rem] text-stone-450 uppercase tracking-widest font-bold">Heena & You</span>
+   742→                                <div class="flex gap-1 h-5 items-end mt-1">
+   743→                                    <div class="w-1 bg-rose-400 rounded-full h-1" id="mbar1"></div>
+   744→                                    <div class="w-1 bg-amber-400 rounded-full h-1" id="mbar2"></div>
+   745→                                    <div class="w-1 bg-purple-400 rounded-full h-1" id="mbar3"></div>
+   746→                                    <div class="w-1 bg-rose-300 rounded-full h-1" id="mbar4"></div>
+   747→                                </div>
+   748→                            </div>
+   749→                        </div>
+   750→
+   751→                        <div id="lyricsContainer" class="hidden w-full max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-in-out glass-card rounded-xl border border-stone-200/40 flex flex-col p-3">
+   752→                            <div class="flex justify-between items-center mb-1 px-1">
+   753→                                <span class="text-[0.55rem] font-bold uppercase tracking-[0.2em] text-rose-500">Live Lyrics</span>
+   754→                                <div class="flex items-center gap-1">
+   755→                                    <button id="decreaseLyricsText" class="w-4 h-4 rounded-full bg-white/40 hover:bg-white flex items-center justify-center text-stone-700 transition-all text-[0.55rem]">
+   756→                                        <i class="fa-solid fa-minus"></i>
+   757→                                    </button>
+   758→                                    <button id="increaseLyricsText" class="w-4 h-4 rounded-full bg-white/40 hover:bg-white flex items-center justify-center text-stone-700 transition-all text-[0.55rem]">
+   759→                                        <i class="fa-solid fa-plus"></i>
+   760→                                    </button>
+   761→                                </div>
+   762→                            </div>
+   763→                            <div id="lyricsScrollWindow" class="overflow-y-auto scroll-smooth flex flex-col items-center justify-start py-4 min-h-[100px] max-h-[300px] w-full" style="resize: vertical; height: 130px;">
+   764→                                <div id="lyricsHolder" class="space-y-3 text-center w-full px-1 font-serif-elegant italic text-xs md:text-sm text-stone-600"></div>
+   765→                            </div>
+   766→                            <div class="text-[0.5rem] text-stone-400 text-center mt-1 pointer-events-none">Drag corner to resize screen</div>
+   767→                        </div>
+   768→                    </div>
+   769→
+   770→                    <div class="space-y-1.5 text-left" id="trackListContainer"></div>
+   771→
+   772→                    <div class="mt-4 pt-4 border-t border-white/20">
+   773→                        <button id="showAddTrackBtn" class="w-full py-2 px-3 bg-white/25 hover:bg-white/40 border border-white/30 rounded-lg text-[0.55rem] font-bold tracking-wider uppercase text-stone-700 transition-all duration-300">
+   774→                            + Add Your Own Song
+   775→                        </button>
+   776→                        <div id="addTrackForm" class="hidden mt-3 space-y-2.5 p-3 glass-card rounded-xl transition-all duration-300 text-left">
+   777→                            <div>
+   778→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Song Name</label>
+   779→                                <input type="text" id="newTrackName" placeholder="e.g., Cozy Evening" class="w-full px-2.5 py-1.5 bg-white/80 border border-stone-200 rounded-lg text-sm focus:outline-none focus:border-amber-300">
+   780→                            </div>
+   781→                            <div>
+   782→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Select Audio File</label>
+   783→                                <input type="file" id="newTrackAudio" accept="audio/*" class="w-full text-[0.55rem] text-stone-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[0.55rem] file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer">
+   784→                            </div>
+   785→                            <div>
+   786→                                <label class="block text-[0.55rem] font-bold uppercase text-stone-550 mb-0.5">Select Synced Lyrics (.lrc / .txt)</label>
+   787→                                <input type="file" id="newTrackLyrics" accept=".lrc,.txt" class="w-full text-[0.55rem] text-stone-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[0.55rem] file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 cursor-pointer">
+   788→                            </div>
+   789→                            <button id="saveTrackBtn" class="w-full py-1.5 bg-stone-900 hover:bg-stone-850 text-white rounded-lg text-[0.55rem] font-bold tracking-wider uppercase transition-all duration-300">
+   790→                                Add Song
+   791→                            </button>
+   792→                        </div>
+   793→                    </div>
+   794→                </section>
+   795→
+   796→                <section class="glass-premium p-6 sm:p-7 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   797→                    <div class="absolute -bottom-16 -right-16 w-28 h-28 bg-amber-100/15 rounded-full filter blur-2xl"></div>
+   798→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Vial of Luminescence</h3>
+   799→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">Tap the bottle to see a sweet note</p>
+   800→                    
+   801→                    <div class="relative w-28 h-36 mx-auto cursor-pointer flex items-center justify-center group" id="loveJar">
+   802→                        <div id="bubbleContainer" class="absolute inset-0 w-16 h-24 mx-auto overflow-hidden rounded-b-2xl bottom-3 pointer-events-none z-10"></div>
+   803→                        <svg viewBox="0 0 100 130" class="w-full h-full drop-shadow-lg transition-all duration-500 group-hover:scale-102 relative z-20">
+   804→                            <defs>
+   805→                                <linearGradient id="vialGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+   806→                                    <stop offset="0%" stop-color="rgba(255,255,255,0.85)"/>
+   807→                                    <stop offset="50%" stop-color="rgba(255,255,255,0.15)"/>
+   808→                                    <stop offset="100%" stop-color="rgba(255,218,185,0.3)"/>
+   809→                                </linearGradient>
+   810→                                <linearGradient id="goldAcc" x1="0%" y1="0%" x2="100%" y2="100%">
+   811→                                    <stop offset="0%" stop-color="#f5e6d3"/>
+   812→                                    <stop offset="50%" stop-color="#dfba9b"/>
+   813→                                    <stop offset="100%" stop-color="#a87f5d"/>
+   814→                                </linearGradient>
+   815→                                <linearGradient id="liquidGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+   816→                                    <stop offset="0%" stop-color="rgba(253, 164, 186, 0.65)" />
+   817→                                    <stop offset="100%" stop-color="rgba(251, 191, 36, 0.75)" />
+   818→                                </linearGradient>
+   819→                                <mask id="liquidMask">
+   820→                                    <path d="M 42,32 C 23,35 12,60 12,85 C 12,115 28,130 50,130 C 72,130 88,115 88,85 C 88,60 77,35 58,32 Z" fill="#ffffff" />
+   821→                                </mask>
+   822→                            </defs>
+   823→                            <rect x="41" y="10" width="18" height="6" rx="1.5" fill="url(#goldAcc)"/>
+   824→                            <rect x="37" y="16" width="26" height="3" rx="1" fill="url(#goldAcc)"/>
+   825→                            <path d="M 42,19 L 58,19 L 58,32 L 42,32 Z" fill="rgba(255,255,255,0.25)"/>
+   826→                            <path d="M 42,32 C 23,35 12,60 12,85 C 12,115 28,130 50,130 C 72,130 88,115 88,85 C 88,60 77,35 58,32 Z" fill="url(#vialGlassGrad)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/>
+   827→                            
+   828→                            <g mask="url(#liquidMask)">
+   829→                                <path id="liquidLevel" d="M -100,85 Q -75,80 -50,85 T 0,85 T 50,85 T 100,85 T 150,85 T 200,85 L 200,135 L -100,135 Z" fill="url(#liquidGrad)" />
+   830→                            </g>
+   831→
+   832→                            <path d="M 22,65 C 25,50 35,40 45,36" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+   833→                            <circle cx="50" cy="95" r="9" fill="url(#goldAcc)" opacity="0.85"/>
+   834→                            <path d="M 50,90 L 51.5,93.5 L 55,93.5 L 52.2,95 L 53,98.5 L 50,96.8 L 47,98.5 L 47.8,95 L 45,93.5 L 48.5,93.5 Z" fill="#fff"/>
+   835→                        </svg>
+   836→                        <div id="jarSpark" class="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+   837→                            <i class="fa-solid fa-sparkles text-3xl text-amber-300 opacity-0 transform scale-50 transition-all duration-700"></i>
+   838→                        </div>
+   839→                    </div>
+   840→
+   841→                    <div id="jarNote" class="mt-5 p-4 bg-gradient-to-br from-white/95 to-white/60 border border-amber-100 rounded-[1.5rem] text-xs md:text-sm text-stone-700 leading-relaxed font-serif-elegant italic h-20 flex items-center justify-center text-center transition-all duration-300 shadow-inner">
+   842→                        Tap the bottle to see a sweet message of appreciation.
+   843→                    </div>
+   844→                </section>
+   845→
+   846→                <section class="glass-premium p-6 sm:p-7 rounded-[2rem] text-center relative overflow-hidden transition-all duration-500 hover:shadow-2xl premium-border-glowing">
+   847→                    <h3 class="font-serif-elegant text-xl text-stone-900 mb-0.5 tracking-wider font-semibold">Harp of Whispers</h3>
+   848→                    <p class="text-[0.55rem] text-[#ff4b72] tracking-[0.25em] uppercase font-bold mb-6">Swipe or tap the chimes to hear celestial melodies</p>
+   849→                    <div class="relative h-40 px-2 select-none" id="harpPhysicsContainer">
+   850→                        <svg class="spring-string-container" id="harpStringsSvg" viewBox="0 0 400 180" preserveAspectRatio="none">
+   851→                            <path class="harp-string" d="M 40,0 Q 40,90 40,180" stroke="rgba(212, 175, 55, 0.35)" stroke-width="2" fill="none" data-index="0" data-note="261.63"/>
+   852→                            <path class="harp-string" d="M 104,0 Q 104,90 104,180" stroke="rgba(212, 175, 55, 0.4)" stroke-width="2" fill="none" data-index="1" data-note="293.66"/>
+   853→                            <path class="harp-string" d="M 168,0 Q 168,90 168,180" stroke="rgba(212, 175, 55, 0.45)" stroke-width="2" fill="none" data-index="2" data-note="329.63"/>
+   854→                            <path class="harp-string" d="M 232,0 Q 232,90 232,180" stroke="rgba(212, 175, 55, 0.5)" stroke-width="2" fill="none" data-index="3" data-note="392.00"/>
+   855→                            <path class="harp-string" d="M 296,0 Q 296,90 296,180" stroke="rgba(212, 175, 55, 0.55)" stroke-width="2" fill="none" data-index="4" data-note="440.00"/>
+   856→                            <path class="harp-string" d="M 360,0 Q 360,90 360,180" stroke="rgba(212, 175, 55, 0.6)" stroke-width="2" fill="none" data-index="5" data-note="523.25"/>
+   857→                        </svg>
+   858→                        <div class="absolute inset-x-0 bottom-1 flex justify-between px-3 text-[0.6rem] text-amber-800 font-extrabold tracking-widest pointer-events-none opacity-80">
+   859→                            <span>C</span>
+   860→                            <span>D</span>
+   861→                            <span>E</span>
+   862→                            <span>G</span>
+   863→                            <span>A</span>
+   864→                            <span>C</span>
+   865→                        </div>
+   866→                    </div>
+   867→                </section>
+   868→            </div>
+   869→        </div>
+   870→
+   871→        <footer class="mt-20 text-center select-none" id="mainFooter">
+   872→            <div class="w-10 h-[1px] bg-stone-300 mx-auto mb-3"></div>
+   873→            <p class="text-[0.55rem] tracking-[0.4em] text-rose-500 uppercase font-extrabold">Exclusively for Heena</p>
+   874→            <p class="text-xs font-serif-elegant italic text-stone-500 mt-0.5">A beautiful friendship glowing through time.</p>
+   875→        </footer>
+   876→
+   877→    </div>
+   878→
+   879→    <script>
+   880→        const myPlaylist = [
+   881→            {
+   882→                name: "Your Thoughts",
+   883→                audioFile: "Your Thoughts.flac",
+   884→                lyricsFile: "Your Thoughts.lrc"
+   885→            },
+   886→            {
+   887→                name: "Saajna",
+   888→                audioFile: "Saajna.flac",
+   889→                lyricsFile: "Saajna.lrc"
+   890→            },
+   891→            {
+   892→                name: "Perfect",
+   893→                audioFile: "Perfect.m4a",
+   894→                lyricsFile: "Perfect.lrc"
+   895→            }
+   896→        ];
+   897→
+   898→        const jarThoughts = [
+   899→            "You are elegant because you treat everyone with quiet kindness.",
+
+[showing lines 400-899 of 2306; use offset=900 with limit to continue reading]

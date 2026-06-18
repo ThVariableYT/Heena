@@ -1,0 +1,125 @@
+"use client";
+
+let audioCtx: AudioContext | null = null;
+let mainGain: GainNode | null = null;
+let delayNode: DelayNode | null = null;
+let feedbackNode: GainNode | null = null;
+let ambientNodes: { osc: OscillatorNode; gain: GainNode }[] = [];
+let ambientActive = false;
+
+export function initAudio() {
+  if (audioCtx) return;
+  try {
+    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    audioCtx = new Ctx();
+    mainGain = audioCtx.createGain();
+    mainGain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+
+    delayNode = audioCtx.createDelay(1.0);
+    delayNode.delayTime.setValueAtTime(0.3, audioCtx.currentTime);
+
+    feedbackNode = audioCtx.createGain();
+    feedbackNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+
+    mainGain.connect(audioCtx.destination);
+    mainGain.connect(delayNode);
+    delayNode.connect(feedbackNode);
+    feedbackNode.connect(delayNode);
+    delayNode.connect(audioCtx.destination);
+  } catch {
+    // no-op
+  }
+}
+
+export function resumeAudio() {
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+}
+
+export function playChime(
+  freq: number,
+  type: OscillatorType = "sine",
+  duration = 1.0,
+  volume = 0.12,
+) {
+  if (!audioCtx || !mainGain) return;
+  try {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    const now = audioCtx.currentTime;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(volume, now + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+    osc.connect(gain);
+    gain.connect(mainGain);
+    osc.start(now);
+    osc.stop(now + duration);
+  } catch {
+    // no-op
+  }
+}
+
+export function playSparkleChord() {
+  const notes = [523.25, 659.25, 783.99, 1046.5];
+  notes.forEach((n, i) => {
+    setTimeout(() => playChime(n, "triangle", 1.2, 0.08), i * 60);
+  });
+}
+
+export function startAmbientPad() {
+  if (!audioCtx || !mainGain || ambientActive) return;
+  ambientActive = true;
+  const freqs = [130.81, 196.0, 261.63];
+  freqs.forEach((f) => {
+    const osc = audioCtx!.createOscillator();
+    const gain = audioCtx!.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(f, audioCtx!.currentTime);
+    gain.gain.setValueAtTime(0, audioCtx!.currentTime);
+    gain.gain.linearRampToValueAtTime(0.04, audioCtx!.currentTime + 2);
+    osc.connect(gain);
+    gain.connect(mainGain!);
+    osc.start();
+    ambientNodes.push({ osc, gain });
+  });
+}
+
+export function stopAmbientPad() {
+  if (!audioCtx) return;
+  ambientActive = false;
+  ambientNodes.forEach(({ osc, gain }) => {
+    try {
+      gain.gain.linearRampToValueAtTime(0, audioCtx!.currentTime + 1.2);
+      osc.stop(audioCtx!.currentTime + 1.3);
+    } catch {
+      // no-op
+    }
+  });
+  ambientNodes = [];
+}
+
+export function startProceduralMelody(onChord: (time: number) => void) {
+  const chords = [
+    [261.63, 329.63, 392.0, 493.88],
+    [349.23, 440.0, 523.25, 587.33],
+    [293.66, 349.23, 440.0, 523.25],
+    [392.0, 493.88, 587.33, 698.46],
+  ];
+  let idx = 0;
+  let mockTime = 0;
+  const interval = setInterval(() => {
+    const chord = chords[idx];
+    chord.forEach((note, i) => {
+      setTimeout(() => playChime(note, "sine", 2.8, 0.07), i * 180);
+    });
+    idx = (idx + 1) % chords.length;
+    mockTime += 2;
+    onChord(mockTime);
+  }, 2000);
+  return interval;
+}
