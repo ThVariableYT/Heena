@@ -6,48 +6,77 @@ import { tracks, type Track } from "@/lib/birthday-data";
 import { sparkle } from "./SparkleCanvas";
 import { playChime, startProceduralMelody } from "@/lib/audio";
 
+// 📝 Helper function to parse standard .lrc file timestamp tags
+function parseLRC(lrcText: string): { time: number; text: string }[] {
+  const lines = lrcText.split("\n");
+  const result: { time: number; text: string }[] = [];
+  // Regex to match timestamps like [01:23.45] or [00:04.50]
+  const timeRegex = /\[(\d+):(\d+)\.(\d+)\]/;
+
+  for (const line of lines) {
+    const match = timeRegex.exec(line);
+    if (match) {
+      const minutes = parseInt(match[1], 10);
+      const seconds = parseInt(match[2], 10);
+      const totalSeconds = minutes * 60 + seconds;
+      const text = line.replace(timeRegex, "").trim();
+      
+      if (text) {
+        result.push({ time: totalSeconds, text });
+      }
+    }
+  }
+  return result;
+}
+
 export default function VinylPlayer() {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [playing, setPlaying] = useState(false);
   const [activeLyricIndex, setActiveLyricIndex] = useState(-1);
   const [elapsed, setElapsed] = useState(0);
+  const [trackDuration, setTrackDuration] = useState(0);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const proceduralRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const elapsedRef = useRef(0);
 
+  // 🛑 Cleanup audio player when leaving the page
   useEffect(() => {
-    elapsedRef.current = elapsed;
-  }, [elapsed]);
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      if (proceduralRef.current) {
+        clearInterval(proceduralRef.current);
+      }
+    };
+  }, []);
 
-  useEffect(() => {
-    if (!playing || !currentTrack) return;
-    const interval = setInterval(() => {
-      setElapsed((prev) => {
-        const next = prev + 0.5;
-        const lyrics = currentTrack.lyrics;
-        let idx = -1;
-        for (let i = 0; i < lyrics.length; i++) {
-          if (next >= lyrics[i].time) idx = i;
-          else break;
-        }
-        setActiveLyricIndex(idx);
-        return next;
-      });
-    }, 500);
-    return () => clearInterval(interval);
-  }, [playing, currentTrack]);
-
-  const selectTrack = (track: Track, e: React.MouseEvent) => {
+  const selectTrack = async (track: Track, e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     sparkle({ x: rect.left + rect.width / 2, y: rect.top, count: 12, kind: "gold" });
 
+    // Toggle off if clicking the active playing song
     if (currentTrack?.name === track.name && playing) {
       stopPlayback();
       return;
     }
 
+    // Stop current track and animations
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
     if (proceduralRef.current) {
       clearInterval(proceduralRef.current);
       proceduralRef.current = null;
+    }
+
+    // 📥 Fetch and dynamically parse the .lrc file text
+    try {
+      const response = await fetch(track.lrcSrc);
+      const lrcText = await response.text();
+      track.lyrics = parseLRC(lrcText);
+    } catch (err) {
+      console.error("Could not fetch or parse LRC lyrics file:", err);
     }
 
     setCurrentTrack(track);
@@ -55,12 +84,44 @@ export default function VinylPlayer() {
     setElapsed(0);
     setActiveLyricIndex(-1);
 
-    const chords = [261.63, 329.63, 392.0, 493.88, 349.23, 440.0, 523.25, 587.33];
+    // 🔊 Load and initialize the native FLAC audio element
+    const audio = new Audio(track.audioSrc);
+    audioRef.current = audio;
+
+    // 🎛️ Handle timing updates directly from the audio file
+    audio.ontimeupdate = () => {
+      const currentTime = audio.currentTime;
+      setElapsed(currentTime);
+      
+      // Update active lyric based on timestamp match
+      let idx = -1;
+      for (let i = 0; i < track.lyrics.length; i++) {
+        if (currentTime >= track.lyrics[i].time) {
+          idx = i;
+        } else {
+          break;
+        }
+      }
+      setActiveLyricIndex(idx);
+    };
+
+    audio.onloadedmetadata = () => {
+      setTrackDuration(audio.duration);
+    };
+
+    audio.onended = () => {
+      stopPlayback();
+    };
+
+    // Sparkle animation effects
+    const chords = [261.63, 329.63, 392.0, 493.88];
     proceduralRef.current = startProceduralMelody(() => {
       const cx = window.innerWidth / 2;
       sparkle({ x: cx + (Math.random() * 80 - 40), y: window.innerHeight / 2, count: 1, kind: "rainbow" });
     });
     playChime(chords[0], "sine", 1.5, 0.1);
+
+    audio.play().catch((err) => console.error("Audio playback blocked:", err));
   };
 
   const stopPlayback = () => {
@@ -68,6 +129,11 @@ export default function VinylPlayer() {
     setCurrentTrack(null);
     setElapsed(0);
     setActiveLyricIndex(-1);
+    
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
     if (proceduralRef.current) {
       clearInterval(proceduralRef.current);
       proceduralRef.current = null;
@@ -264,12 +330,12 @@ export default function VinylPlayer() {
             )}
           </AnimatePresence>
 
-          {currentTrack && playing && (
+          {currentTrack && playing && trackDuration > 0 && (
             <div className="flex items-center gap-3 px-2">
               <div className="h-1 flex-1 overflow-hidden rounded-full bg-stone-200">
                 <motion.div
                   className="h-full bg-gradient-to-r from-amber-500 to-rose-500"
-                  animate={{ width: `${Math.min((elapsed / 32) * 100, 100)}%` }}
+                  animate={{ width: `${Math.min((elapsed / trackDuration) * 100, 100)}%` }}
                   transition={{ ease: "linear" }}
                 />
               </div>
