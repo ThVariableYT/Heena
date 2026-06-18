@@ -93,41 +93,43 @@ export type Track = {
   name: string;
   duration: string;
   mood: string;
-  lyrics: { time: number; text: string }[];
+  audioSrc: string; // Path to your .flac file
+  lrcSrc: string;   // Path to your .lrc file
+  lyrics: { time: number; text: string }[]; // Will hold the parsed lyrics
 };
 
 export type Track = {
   name: string;
   duration: string;
   mood: string;
-  audioSrc: string; // Path to your .flac file
-  lrcSrc: string;   // Path to your .lrc file
-  lyrics: { time: number; text: string }[]; // Will hold the parsed lyrics
+  audioSrc: string; // Clean web path
+  lrcSrc: string;   // Clean web path
+  lyrics: { time: number; text: string }[]; 
 };
 
 export const tracks: Track[] = [
   {
     name: "Your Thoughts",
-    duration: "3:42",
+    duration: "3:02",
     mood: "Warm · Ambient",
-    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Your Thoughts.flac",
-    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Your Thoughts.lrc",
-    lyrics: [], // We will parse the .lrc file into this array
+    audioSrc: "/Music/Your Thoughts.flac",
+    lrcSrc: "/Music/Your Thoughts.lrc",
+    lyrics: [], 
   },
   {
     name: "Saajna",
-    duration: "4:08",
+    duration: "4:41",
     mood: "Tender · Reflective",
-    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Saajna.flac",
-    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Saajna.lrc",
+    audioSrc: "/Music/Saajna.flac",
+    lrcSrc: "/Music/Saajna.lrc",
     lyrics: [],
   },
   {
     name: "Perfect",
-    duration: "3:15",
+    duration: "4:23",
     mood: "Bright · Hopeful",
-    audioSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Perfect.m4a",
-    lrcSrc: "C:\\Users\\sarik\\Downloads\\Heena\\public\\Music\\Perfect.lrc",
+    audioSrc: "/Music/Perfect.m4a",
+    lrcSrc: "/Music/Perfect.lrc",
     lyrics: [],
   },
 ];
