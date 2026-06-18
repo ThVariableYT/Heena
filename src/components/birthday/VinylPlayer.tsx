@@ -6,7 +6,7 @@ import { tracks, type Track } from "@/lib/birthday-data";
 import { sparkle } from "./SparkleCanvas";
 import { playChime, startProceduralMelody } from "@/lib/audio";
 
-// 📝 Flexible parser matching standard formats: [00:04], [00:04.50], or [00:04:50]
+// 📝 Flexible parser matching standard formats safely
 function parseLRC(lrcText: string): { time: number; text: string }[] {
   if (!lrcText) return [];
   const lines = lrcText.split("\n");
@@ -37,7 +37,7 @@ export default function VinylPlayer() {
   const [trackDuration, setTrackDuration] = useState(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const proceduralRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const proceduralRef = useRef<any>(null); // ✅ Fixed: Prevents Next.js Node vs Browser timer type conflicts
 
   useEffect(() => {
     return () => {
@@ -46,9 +46,15 @@ export default function VinylPlayer() {
     };
   }, []);
 
-  const selectTrack = async (track: Track, e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    sparkle({ x: rect.left + rect.width / 2, y: rect.top, count: 12, kind: "gold" });
+  // ✅ Fixed: Made 'e' optional so auto-play clicks don't need fake event objects
+  const selectTrack = async (track: Track, e?: React.MouseEvent) => {
+    if (e) {
+      const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+      sparkle({ x: rect.left + rect.width / 2, y: rect.top, count: 12, kind: "gold" });
+    } else {
+      const cx = window.innerWidth / 2;
+      sparkle({ x: cx, y: window.innerHeight / 2, count: 12, kind: "gold" });
+    }
 
     if (currentTrack?.name === track.name && playing) {
       stopPlayback();
@@ -72,7 +78,6 @@ export default function VinylPlayer() {
       console.error("Could not load lyrics:", err);
     }
 
-    // 🔄 Update state immutably using a fresh copy
     setCurrentTrack({
       ...track,
       lyrics: parsedLyrics
@@ -132,9 +137,15 @@ export default function VinylPlayer() {
   };
 
   const handleVinylClick = () => {
-    if (playing) stopPlayback();
-    else if (tracks[0]) selectTrack(tracks[0], { currentTarget: { getBoundingClientRect: () => ({ left: 0, top: 0, width: 0, height: 0 }) } } as unknown as React.MouseEvent);
+    if (playing) {
+      stopPlayback();
+    } else if (tracks[0]) {
+      selectTrack(tracks[0]); // ✅ Fixed: Clean, safe call without simulated properties
+    }
   };
+
+  // ✅ Fixed: Prevent division-by-zero NaN layout calculation errors
+  const progressPercent = trackDuration > 0 ? Math.min((elapsed / trackDuration) * 100, 100) : 0;
 
   return (
     <section className="relative px-4 py-32">
@@ -303,7 +314,7 @@ export default function VinylPlayer() {
               <div className="h-1 flex-1 overflow-hidden rounded-full bg-stone-200">
                 <motion.div
                   className="h-full bg-gradient-to-r from-amber-500 to-rose-500"
-                  animate={{ width: `${Math.min((elapsed / trackDuration) * 100, 100)}%` }}
+                  animate={{ width: `${progressPercent}%` }}
                   transition={{ ease: "linear" }}
                 />
               </div>
